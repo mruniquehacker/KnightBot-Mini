@@ -1,14 +1,3 @@
-// Add this at the top of index.js
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.get('/', (req, res) => {
-  res.send('Knight Bot Mini alive 😏🖤');
-});
-
-app.listen(PORT, () => console.log(`HTTP server running on port ${PORT}`));
-
 /**
  * WhatsApp MD Bot - Main Entry Point
  */
