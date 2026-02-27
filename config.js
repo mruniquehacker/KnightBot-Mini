@@ -4,12 +4,12 @@
 
 module.exports = {
     // Bot Owner Configuration
-    ownerNumber: ['91xxxxxxxxxxx','917023951514'], // Add your number without + or spaces (e.g., 919876543210)
-    ownerName: ['Knight Bot Mini', 'Professor'], // Owner names corresponding to ownerNumber array
+    ownerNumber: ['2347079629658'], // Add your number without + or spaces (e.g., 919876543210)
+    ownerName: ['✟ЄМРЄЯФЯ♆ИЦЄL҉✟'], // Owner names corresponding to ownerNumber array
     
     // Bot Configuration
-    botName: 'Knight Bot Mini',
-    prefix: '.',
+    botName: '❈ℕ𝕦𝕖𝕝✡𝕊𝕖𝕟𝕥𝕚𝕟𝕖𝕝❈',
+    prefix: '!',
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || 'KnightBot!H4sIAAAAAAAAA5VU25KiSBT8l3rVGAFRkYiOWEDwAigiXjfmoYQCSqVAqrg54b9vYE9Pz8PuRO9b3SJPnsw89QOQFFNkogbIP0CW4xIy1C5ZkyEgA7UIQ5SDLgggg0AGot7Z+OptNchP1+l2qJjQmOyE3pUtFz4bPZzSgTMFLUyL99/Aswuy4nzD/h8AdShNAltRz4axuMbogo9Zfx3pdeZpZylSxKkVV0mAucqgb+DZIkKcYxLpWYwSlMObiRoH4vxr9PeOsu6g8ajm6FAosXkTjUnEJ8cLJz3Iw/PTWJhL1nrIdtzX6Pf3m6JwFnd83vYepUYb3jfMoDktDufVfHwQprnb1zMdGlflnT7FEUHBPECEYdZ8Wfe5NRan96Cu0ru58jtq5cfWYDaWBvujRNVhddEt95iZvjnTv0bcdY+9TJWqgz3x0MGSzsJIF4vJqB+iOzda1Fq9zVeRQLeP6+/EnfwjK9f/o7tvbPbplESsuSTlMj3fFK6SiqOdmsbe0Iz7g1/XJzgThzPxa/QPq+quimacTkh8nZQlsasw8/Yda9dLBtZlszHZZLFazOu1/0kfsiL/E8ubFXpNgsRGQAOu7MWYogfsPSrqK3YUu+VoHvWUbGc6Ro8b2XZF8R6aO0tbc+Pdfdffq4vpmIzUmapRnKQhPqzS9WX99uroipp5AGT+2QU5ijBlOWQ4Ja+zYRfAoNwgP0fspS7wOjrRz3R+SffzIlNsTt2LZOjUu3ula+7SPO3odYgsvd4qb6ALsjz1EaUomGHK0ryxEaUwQhTIf3/vAoJq9u5bW63Pd0GIc8q2pMhuKQw+TP24hL6fFoRtGuJr7QLlQOY+jxFjmES0lbEgMPdjXCIthowCOYQ3in41iHIUAJnlBfo1tFoatLoPeN7ce8sR6ILk5QcOgAyEvjjiRuOhMB4OJFka/UW/VS0uzLJvBDHQBbfXO37McbwoDKWx0B/3++3L9uL5i2KLGCAG8Y0CGWgr6zY8Xye605BY4qZTxY4ULVLAZ0sf0XjXfludLousk3UeUeCqhqcGXK2MiwRO863pbe8WjpdBViexJr39CwiQgXEhJt8LVcU1yw2BgpMqJFWmtS0U6KIrNV3rq/s5Ngy77lCBzXexdjDI0dsYZRDZJ5U0oZfdpxIMsWIvl3dDR7UWvbXVAlRiH/1eTCmbret5tWvSpICi3/jrXme8Vo0AD5Gud9xN7I57SSIuZpwuWcpOLLWH67BF2avi1E0fnj0pieY+DtYkHUS5s0IzXL2H9jU0t5+fFX7lqTWr3YYYvWafwNbCL5j3zrwNGffs/gby8zv5j5FUd/b02MDwHlJxtl272+oQ2GvnnCXxndeuvInF1DtA/5SuS/B8fu+C7AZZmOYJkAEkQZ7iAHRBnhZtauckTP9QTFO4uRJF87b1G6RM+ZwEDyeIMphkQOZHI0Hg+4Iovb9y8jSbQRq3Kjj8MQ7B8x/9mouQVgcAAA==',
     newsletterJid: '120363161513685998@newsletter', // Newsletter JID for menu forwarding
@@ -19,7 +19,7 @@ module.exports = {
     packname: 'Knight Bot Mini',
     
     // Bot Behavior
-    selfMode: false, // Private mode - only owner can use commands
+    selfMode: true, // Private mode - only owner can use commands
     autoRead: false,
     autoTyping: false,
     autoBio: false,
