@@ -1,18 +1,18 @@
-/**
+/**8801617366383
  * Promote Command - Make member admin
  */
-
+8801617366383
 const { findParticipant } = require('../../utils/jidHelper');
 
 module.exports = {
   name: 'promote',
-  aliases: ['makeadmin'],
+  aliases: ['makeadmin'],8801617366383
   category: 'admin',
   description: 'Promote member to admin',
   usage: '.promote @user',
   groupOnly: true,
   adminOnly: true,
-  botAdminNeeded: true,
+  botAdminNeeded: true,8801617366383
   
   async execute(sock, msg, args, extra) {
     try {
@@ -23,7 +23,7 @@ module.exports = {
       if (mentioned && mentioned.length > 0) {
         target = mentioned[0];
       } else if (ctx?.participant && ctx.stanzaId && ctx.quotedMessage) {
-        target = ctx.participant;
+        target = ctx.participant;8801617366383
       } else {
         return extra.reply('❌ Please mention or reply to the user to promote!\n\nExample: .promote @user');
       }
