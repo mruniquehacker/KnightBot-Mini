@@ -13,28 +13,45 @@ module.exports = {
       const query = args.join(" ").trim();
 
       if (!query) {
-        return await sock.sendMessage(msg.key.remoteJid, {
-          text: "❌ Please provide a query."
+        return await sock.sendMessage(extra.from, {
+          text: "❌ Please provide a search query."
         });
       }
 
-      const res = await axios.get(
+      const { data } = await axios.get(
         `https://api-olive-five-53.vercel.app/download?url=${encodeURIComponent(query)}`
       );
 
-      console.log(res.data);
+      if (!Array.isArray(data) || data.length === 0) {
+        return await sock.sendMessage(extra.from, {
+          text: "❌ No results found."
+        });
+      }
+
+      const text = data
+        .slice(0, 5) // Show only the first 5 results
+        .map((video, index) => {
+          return `*${index + 1}. ${video.title}*
+📺 Channel: ${video.channel}
+🔗 ${video.url}`;
+        })
+        .join("\n\n");
 
       await sock.sendMessage(
         extra.from,
         {
-          text: JSON.stringify(res.data, null, 2)
+          text: `Greetings @${extra.sender.split("@")[0]} 👋\n\n${text}`,
+          mentions: [extra.sender],
         },
         { quoted: msg }
       );
 
     } catch (err) {
-      console.error("[yts cmd] error:", err);
-      return extra.reply("❌ Something went horribly wrong.");
+      console.error("[yts] Error:", err);
+
+      await sock.sendMessage(extra.from, {
+        text: "❌ Something went wrong while searching YouTube."
+      });
     }
   },
 };
