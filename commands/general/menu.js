@@ -143,9 +143,9 @@ module.exports = {
        // Anime Commands
        if (categories.anime) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 👾 ANIME COMMAND\n`;
+        menuText += `┃ 🔞 NSFW COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
-        categories.anime.forEach(cmd => {
+        categories.nsfw.forEach(cmd => {
           menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
