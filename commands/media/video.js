@@ -89,7 +89,7 @@ module.exports = {
         video: { url: videoData.download },
         mimetype: 'video/mp4',
         fileName: `${(videoData.title || videoTitle || 'video').replace(/[^\w\s-]/g, '')}.mp4`,
-        caption: `*${videoData.title || videoTitle || 'Video'}*\n\n> *_Downloaded by ${instanceConfig.botName}_*`
+        caption: `*${videoData.title || videoTitle || 'Video'}*\n\n> *_Downloaded by FOUNDER MINI 🤖_*`
       }, { quoted: msg });
 
     } catch (error) {
