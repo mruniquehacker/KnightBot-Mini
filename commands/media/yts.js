@@ -17,8 +17,8 @@ module.exports = {
         await sock.sendMessage(extra.from, {
         text: `Greetings @${extra.sender.split('@')[0]} 👻, 
         "\n"
-        
-        ` res.map((obj) => obj.url + "\n"),
+        ${res.map((obj) => obj.url + "\n")}
+        ` ,
           mentions: [extra.sender],
       }, { quoted: msg });
 
