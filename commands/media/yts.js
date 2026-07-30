@@ -45,7 +45,7 @@ module.exports = {
       await sock.sendMessage(
         extra.from,
         {
-          text: `*Results for ${query}\n\n${text}*`,
+          text: `*Results for ${query}* \n\n${text}`,
           mentions: [extra.sender],
         },
         { quoted: msg }
