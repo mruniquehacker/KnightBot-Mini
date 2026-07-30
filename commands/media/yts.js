@@ -11,7 +11,7 @@ module.exports = {
   async execute(sock, msg, args, extra) {
     try {
         await sock.sendMessage(extra.from, {
-        text: `Greetings @${extra.sender.split('@')[0]} 👻, you said ${msg}`,
+        text: `Greetings @${extra.sender.split('@')[0]} 👻, you said ${args.join(" ")}`,
           mentions: [extra.sender],
       }, { quoted: msg });
 
