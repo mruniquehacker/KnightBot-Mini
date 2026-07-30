@@ -1,5 +1,5 @@
 const axios = require("axios")
-const API = `https://api-olive-five-53.vercel.app/download?url=`
+//const API = `https://api-olive-five-53.vercel.app/download?url=`
 
 module.exports = {
   name: 'yts',
@@ -12,12 +12,20 @@ module.exports = {
   async execute(sock, msg, args, extra) {
     try {
         const url = args.join(" ")
-        const res = await axios.get(`${API}` + url)
-        
+        const res = await axios.get(`https://api-olive-five-53.vercel.app/download?url=${url}`
+      await  sock.sendMessage(msg.key.remoteJid, { 
+          text: `${url}`
+        });
+      
+  if (url.length === 0) {
+        return await sock.sendMessage(msg.key.remoteJid, { 
+          text: `❌ Please provide a query`
+        });
+      }
         await sock.sendMessage(extra.from, {
         text: `Greetings @${extra.sender.split('@')[0]} 👻, 
-        "\n"
-        ${res.map((obj) => obj.url + "\n")}
+      
+        ${res.map((obj) => obj.url)}
         ` ,
           mentions: [extra.sender],
       }, { quoted: msg });
