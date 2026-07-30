@@ -2,7 +2,7 @@
 
 module.exports = {
   name: 'hy',
-  aliases: ['hello, hi, h'],
+  aliases: ["hello", "hi", "h"],
   category: 'owner',
   description: 'greet bot',
   usage: 'ill add later',
