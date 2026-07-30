@@ -12,13 +12,13 @@ module.exports = {
   async execute(sock, msg, args, extra) {
     try {
         const url = args.join(" ")
-        const res = await axios.get(`${API}+${url}`)
+        const res = await axios.get(`${API}` + url)
         
         await sock.sendMessage(extra.from, {
         text: `Greetings @${extra.sender.split('@')[0]} 👻, 
-        \n 
+        "\n"
         
-        ` res.map((obj) => obj.url + "\n",
+        ` res.map((obj) => obj.url + "\n"),
           mentions: [extra.sender],
       }, { quoted: msg });
 
