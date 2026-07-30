@@ -1,6 +1,20 @@
 /**
  * WhatsApp MD Bot - Main Entry Point
  */
+
+// dummy code to hush render
+
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hello from HTTP server!');
+});
+
+server.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+
 process.env.PUPPETEER_SKIP_DOWNLOAD = 'true';
 process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'true';
 process.env.PUPPETEER_CACHE_DIR = process.env.PUPPETEER_CACHE_DIR || '/tmp/puppeteer_cache_disabled';
