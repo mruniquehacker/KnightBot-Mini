@@ -1,9 +1,9 @@
 const xvideos = require("@rodrigogs/xvideos");
 
 module.exports = {
-  name: "xvid",
-  aliases: ["xvideo", "xv"],
-  category: "media",
+  name: "xvids",
+  aliases: ["xvideos", "xs"],
+  category: "nsfw",
   description: "Search videos on XVideos",
   usage: "xvid <query>",
   ownerOnly: true,
