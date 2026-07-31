@@ -2,7 +2,7 @@ const axios = require("axios");
 
 module.exports = {
   name: "xvideos",
-  aliases: ["xvdl", "xv"],
+  aliases: ["xvdl", "xl"],
   category: "media",
   description: "Download videos from XVideos",
   usage: ".xvideos <xvideos url>",
@@ -13,7 +13,7 @@ module.exports = {
       const chatId = msg.key.remoteJid;
       const url = args.join(" ").trim();
 
-      if (!url) {
+      if (!args) {
         return await sock.sendMessage(
           chatId,
           {
@@ -23,82 +23,33 @@ module.exports = {
         );
       }
 
-      if (!/^https?:\/\/(www\.)?xvideos\.com\//i.test(url)) {
-        return await sock.sendMessage(
-          chatId,
-          {
-            text: "❌ Invalid XVideos URL.",
-          },
-          { quoted: msg }
-        );
-      }
+      
+      
 
-      const { data } = await axios.get(
-        "https://api.princetechn.com/api/download/xvideosdl",
-        {
-          params: {
-            apikey: "prince",
-            url,
-          },
-        }
-      );
-
-      if (!data.success || !data.result) {
-        return await sock.sendMessage(
-          chatId,
-          {
-            text: "❌ Failed to fetch the video.",
-          },
-          { quoted: msg }
-        );
-      }
-
-      const video = data.result;
+      // const video = data.result;
 
       // Send thumbnail first
-      if (video.image) {
-        try {
-          await sock.sendMessage(
-            chatId,
-            {
-              image: { url: video.image },
-              caption: `*${video.title}*\nDownloading...`,
-            },
-            { quoted: msg }
-          );
-        } catch (e) {
-          console.error("[XVIDEOS] Thumbnail Error:", e.message);
-        }
-      }
+      
 
       // Always use HIGH quality
-      let downloadUrl = video.files?.high;
+      //let downloadUrl = video.files?.high;
 
-      if (!downloadUrl) {
-        return await sock.sendMessage(
-          chatId,
-          {
-            text: "❌ High quality video is unavailable.",
-          },
-          { quoted: msg }
-        );
-      }
+      
 
       // Remove timestamp if present
-      downloadUrl = downloadUrl.split(",")[0];
-
+      
       await sock.sendMessage(
         chatId,
         {
           video: {
-            url: downloadUrl,
+            url: args,
           },
           mimetype: "video/mp4",
-          fileName: `${video.title.replace(/[^\w\s-]/g, "")}.mp4`,
-          caption: `*${video.title}*
+          fileName: `${args}.mp4`,
+          caption: `*${"some saucy stuff"}*
 
-⏱️ Duration: ${video.duration}s
-📺 ${video.info}
+⏱️ Duration: ${// video.duration}s
+📺 ${// video.info}
 
 > *_Downloaded by FOUNDER MINI 🤖_*`,
         },
