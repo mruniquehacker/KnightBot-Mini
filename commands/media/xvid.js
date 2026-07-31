@@ -1,7 +1,7 @@
 const xvideos = require("@rodrigogs/xvideos");
 
 module.exports = {
-  name: "xvids",
+  name: "xs",
   aliases: ["xvideos", "xs"],
   category: "nsfw",
   description: "Search videos on XVideos",
