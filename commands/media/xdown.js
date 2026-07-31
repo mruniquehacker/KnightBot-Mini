@@ -42,7 +42,7 @@ module.exports = {
         chatId,
         {
           video: {
-            url: args,
+            url: args[0].trim(),
           },
           mimetype: "video/mp4",
           fileName: `${args}.mp4`,
