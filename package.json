@@ -25,7 +25,7 @@
         "@vitalets/google-translate-api": "^9.2.1",
         "@whiskeysockets/baileys": "^v7.0.0-rc.9",
         "axios": "^1.7.2",
-        "nekosapi": "^4.0.0",
+        
         "canvas": "^3.2.1",
         "@rodrigogs/xvideos": "^3.1.0",
         "cheerio": "^1.0.0-rc.12",
