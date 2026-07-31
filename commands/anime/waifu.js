@@ -3,8 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { getTempDir, deleteTempFile } = require('../../utils/tempManager');
 
-const BASE = 'https://api.waifu.im/images';
-
+const BASE = 'https://api.waifu.im/images?IsNsfw=True';
 module.exports = {
   name: 'waifu',
   aliases: ['waifuim'],
