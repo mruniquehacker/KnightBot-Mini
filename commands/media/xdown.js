@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 module.exports = {
-  name: "xvideos",
+  name: "xdl",
   aliases: ["xvdl", "xl"],
   category: "nsfw",
   description: "Download videos from XVideos",
