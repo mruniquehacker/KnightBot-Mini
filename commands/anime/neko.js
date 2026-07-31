@@ -1,35 +1,34 @@
-const { NekosAPI } = require("nekosapi");
-
-const api = new NekosAPI();
+const axios = require("axios");
 
 module.exports = {
   name: "neko",
   aliases: ["catgirl", "waifu"],
   category: "fun",
-  description: "Send a random neko image.",
+  description: "Get a random neko image.",
 
-  async execute(sock, msg) {
+  execute: async ({ sock, m }) => {
     try {
-      const image = await api.getRandomImage("Catgirl");
+      const { data } = await axios.get(
+        "https://api.nekosapi.com/v4/images/random"
+      );
+
+      if (!data?.items?.length) {
+        return m.reply("❌ Failed to fetch a neko image.");
+      }
+
+      const image = data.items[0];
 
       await sock.sendMessage(
-        msg.key.remoteJid,
+        m.chat,
         {
-          image: { url: image.imageUrl || image.url },
-          caption: `🐱 ${image.artistName ? `Artist: ${image.artistName}` : "Random Catgirl"}`
+          image: { url: image.image_url },
+          caption: `🐱 ${image.artist_name || "Random Neko"}`,
         },
-        { quoted: msg }
+        { quoted: m }
       );
     } catch (err) {
       console.error(err);
-
-      await sock.sendMessage(
-        msg.key.remoteJid,
-        {
-          text: "❌ Failed to fetch an image."
-        },
-        { quoted: msg }
-      );
+      m.reply("❌ Failed to fetch a neko image.");
     }
-  }
+  },
 };
