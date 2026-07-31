@@ -8,7 +8,7 @@ const BASE = 'https://api.waifu.im/images';
 module.exports = {
   name: 'waifu',
   aliases: ['waifuim'],
-  category: 'anime',
+  category: 'nsfw',
   desc: 'Get a random waifu image',
   usage: 'waifu',
 
