@@ -34,11 +34,15 @@ module.exports = {
 
       const video = data.result;
 
-      // Always use LOW quality
-      const downloadUrl = video.files?.low;
+      // Prefer LOW quality, otherwise use HIGH quality
+      let downloadUrl = video.files?.low;
 
       if (!downloadUrl) {
-        throw new Error("Low quality download not available.");
+        downloadUrl = video.files?.high;
+      }
+
+      if (!downloadUrl) {
+        throw new Error("No downloadable video found.");
       }
 
       await sock.sendMessage(
