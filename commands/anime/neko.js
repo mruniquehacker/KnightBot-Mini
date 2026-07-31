@@ -8,7 +8,7 @@ const BASE = 'https://api.nekosapi.com/v4/images/random';
 module.exports = {
   name: 'neko',
   aliases: ['catgirl', 'waifu'],
-  category: 'anime',
+  category: 'nsfw',
   desc: 'Get a random neko image',
   usage: 'neko',
 
