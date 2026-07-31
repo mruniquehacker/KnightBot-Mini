@@ -34,29 +34,41 @@ module.exports = {
 
       const video = data.result;
 
-      // Prefer LOW quality, otherwise use HIGH quality
-      let downloadUrl = video.files?.low;
-
-      if (!downloadUrl) {
-        downloadUrl = video.files?.high;
+      if (!video.download_url) {
+        throw new Error("Download URL not found.");
       }
 
-      if (!downloadUrl) {
-        throw new Error("No downloadable video found.");
-      }
+      // Send thumbnail with video information
+      await sock.sendMessage(
+        chatId,
+        {
+          image: {
+            url: video.thumbnail,
+          },
+          caption: `*${video.title}*
 
+👁️ Views: ${video.views}
+👍 Likes: ${video.likes}
+👎 Dislikes: ${video.dislikes}
+📦 Size: ${video.size}
+
+> Downloading video...`,
+        },
+        { quoted: msg }
+      );
+
+      // Send the video
       await sock.sendMessage(
         chatId,
         {
           video: {
-            url: downloadUrl,
+            url: video.download_url,
           },
           mimetype: "video/mp4",
           fileName: `${video.title}.mp4`,
           caption: `*${video.title}*
 
-⏱️ Duration: ${video.duration}
-📺 ${video.info}
+📦 Size: ${video.size}
 
 > *_Downloaded by FOUNDER MINI 🤖_*`,
         },
