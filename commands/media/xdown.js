@@ -11,9 +11,8 @@ module.exports = {
   async execute(sock, msg, args) {
     try {
       const chatId = msg.key.remoteJid;
-      const url = args.join(" ").trim();
 
-      if (!args) {
+      if (!args.length) {
         return await sock.sendMessage(
           chatId,
           {
@@ -23,40 +22,44 @@ module.exports = {
         );
       }
 
-      
-      
+      const url = args.join(" ").trim();
 
-      // const video = data.result;
+      const { data } = await axios.get(
+        `https://api.princetechn.com/api/download/xvideosdl?apikey=prince&url=${encodeURIComponent(url)}`
+      );
 
-      // Send thumbnail first
-      
+      if (!data.success || !data.result) {
+        throw new Error("Failed to fetch video.");
+      }
 
-      // Always use HIGH quality
-      //let downloadUrl = video.files?.high;
+      const video = data.result;
 
-      
+      // Always use LOW quality
+      const downloadUrl = video.files?.low;
 
-      // Remove timestamp if present
-      
+      if (!downloadUrl) {
+        throw new Error("Low quality download not available.");
+      }
+
       await sock.sendMessage(
         chatId,
         {
           video: {
-            url: args[0].trim(),
+            url: downloadUrl,
           },
           mimetype: "video/mp4",
-          fileName: `${args}.mp4`,
-          caption: `*${"some saucy stuff"}*
+          fileName: `${video.title}.mp4`,
+          caption: `*${video.title}*
 
-⏱️ Duration: ${// video.duration}s
-📺 ${// video.info}
+⏱️ Duration: ${video.duration}
+📺 ${video.info}
 
 > *_Downloaded by FOUNDER MINI 🤖_*`,
         },
         { quoted: msg }
       );
     } catch (err) {
-      console.error("[XVIDEOS] Error:", err.response?.data || err);
+      console.error("[XVIDEOS]", err.response?.data || err);
 
       await sock.sendMessage(
         msg.key.remoteJid,
