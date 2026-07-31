@@ -14,7 +14,7 @@ module.exports = {
 
   execute: async (sock, msg, args, extra) => {
     try {
-      const response = await axios.get(BASE, {
+      const { data } = await axios.get(BASE, {
         headers: {
           'User-Agent': 'Mozilla/5.0',
           'Accept': 'application/json'
@@ -22,12 +22,16 @@ module.exports = {
         timeout: 30000
       });
 
-      if (!response.data?.items?.length) {
-        throw new Error('Invalid API response');
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error('No images returned from the API');
       }
 
-      const image = response.data.items[0];
-      const imageUrl = image.image_url;
+      const image = data[0];
+      const imageUrl = image.url;
+
+      if (!imageUrl) {
+        throw new Error('Invalid image URL');
+      }
 
       const imageResponse = await axios.get(imageUrl, {
         responseType: 'arraybuffer',
@@ -60,10 +64,7 @@ module.exports = {
         await sock.sendMessage(
           extra.from,
           {
-            image: fs.readFileSync(tempPath),
-            caption: image.artist_name
-              ? `🎨 Artist: ${image.artist_name}`
-              : '🐱 Random Neko'
+            image: fs.readFileSync(tempPath)
           },
           { quoted: msg }
         );
@@ -82,7 +83,7 @@ module.exports = {
         return extra.reply('❌ Request timed out. Please try again.');
       }
 
-      return extra.reply(`❌ Failed to fetch neko image: ${error.message}`);
+      return extra.reply(`❌ Failed to fetch image: ${error.message}`);
     }
   }
 };
