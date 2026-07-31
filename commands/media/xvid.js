@@ -24,11 +24,13 @@ module.exports = {
         );
       }
 
-      const { data } = await xvideos.videos.search({
+      const results = await xvideos.videos.search({
         k: query,
       });
 
-      if (!Array.isArray(data) || data.length === 0) {
+      const videos = results.videos;
+
+      if (!Array.isArray(videos) || videos.length === 0) {
         return await sock.sendMessage(
           extra.from,
           {
@@ -40,11 +42,14 @@ module.exports = {
         );
       }
 
-      const text = data
+      const text = videos
         .slice(0, 7)
         .map((video, index) => {
           return `*${index + 1}. ${video.title}*
-🆔 *ID:* ${video.id}
+⏱️ *Duration:* ${video.duration}
+👤 *Uploader:* ${video.profile}
+👁️ *Views:* ${video.watchCount?.toLocaleString?.() ?? video.watchCount}
+🆔 *Video ID:* ${video.videoId}
 🔗 *URL:* ${video.url}`;
         })
         .join("\n\n");
