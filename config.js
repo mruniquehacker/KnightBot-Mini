@@ -20,13 +20,13 @@ module.exports = {
     
     // Bot Behavior
     selfMode: false, // Private mode - only owner can use commands
-    autoRead: false,
-    autoTyping: false,
+    autoRead: true,
+    autoTyping: true,
     autoBio: false,
     autoSticker: false,
-    autoReact: false,
+    autoReact: true,
     autoReactMode: 'bot',
-    autoDownload: false,
+    autoDownload: true,
     
     // Group Settings Defaults
     defaultGroupSettings: {
@@ -81,7 +81,7 @@ module.exports = {
     },
     
     // Timezone
-    timezone: 'Asia/Kolkata',
+    timezone: 'Africa/Johannesburg',
     
     // Limits
     maxWarnings: 3,
