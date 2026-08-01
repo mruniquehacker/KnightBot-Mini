@@ -6,7 +6,7 @@ module.exports = {
   category: "nsfw",
   description: "Search videos on XVideos",
   usage: "xvid <query>",
-  ownerOnly: true,
+  ownerOnly: false,
 
   async execute(sock, msg, args, extra) {
     try {
