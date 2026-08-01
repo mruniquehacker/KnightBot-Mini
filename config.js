@@ -19,7 +19,7 @@ module.exports = {
     packname: 'Founder mini',
     
     // Bot Behavior
-    selfMode: false, // Private mode - only owner can use commands
+    selfMode: true, // Private mode - only owner can use commands
     autoRead: false,
     autoTyping: false,
     autoBio: false,
@@ -31,7 +31,7 @@ module.exports = {
     // Group Settings Defaults
     defaultGroupSettings: {
       antilink: true,
-      antilinkAction: 'kick', // 'delete', 'kick', 'warn'
+      antilinkAction: 'delete', // 'delete', 'kick', 'warn'
       antitag: false,
       antitagAction: 'delete',
       antiall: false, // Owner only - blocks all messages from non-admins
