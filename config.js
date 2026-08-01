@@ -11,7 +11,7 @@ module.exports = {
     botName: 'Founder',
     prefix: '.',
     sessionName: 'session',
-    sessionID: process.env.SESSION_ID || 'KnightBot!H4sIAAAAAAAAA5VU25KiSBD9l3rVmOaiXIzoiEVQ5GZ7RXFjHxAKLLlXFSJM+O8b2NMz/bA72/tWZFEnT+Y5md9BXiACLdiCyXdQYnTzKeyPtC0hmIBpHUUQgyEIfeqDCaiVgy/jRHAjxp3LATZN8a4a5sYrhEUebppW2w/8g6ZsEuUVPIagrM8pCn4D2OkDZn+4NNcxYquT23KL+c0TrhtmJMroJoiNd7Y5fFx569ErePSIPsIoj2flBWYQ+6kF25WP8NfoMzoyNtJWYLYvpKCqWlnCihQv1WZ9k7PSU+wtpni8zIKk+Rr99ugmM/O80ejYukxD/TTKhXIw24wXU3dxWo4cetlbsZNksfFOn6A4h6ERwpwi2n6574zuhOVx1uwWFWbQvZIsyUzqnRLMk53UaZIyysJpMw71LP4acZz4zPay5kJNUpis7DTtSsyNpEyXd2fZrjihdOl24URysv5MfIU/vJL8r77bM6it3ZMsnmSOuV7kwp7aa2tHu7O4GS29em6vRtWB1Xnna/TZTmvzwGsFlnLrlNsLpqu/vJVFV+1NaZE2gzo7HaqByCw+0fdpjX/HMp+RuWWZ54yRSJVIhwsk+V4ipoYl4gneqX05vVC807slOcbbEs0H54swCjSmi5vFRq+V63h0CPKUXVF2/wa7zmkXWvz6rCiBrRGCCfsYAgxjRCj2KSryPiayQ+CHty0MMKTP7oIDW8vcjoq2osIiSbxNqsr6ojSI3cx2hYNFq4RdLPB5LL2CIShxEUBCYLhAhBa4dSAhfgwJmPz51xDk8E7fdeuz8ewQRAgTus/rMi388EPUj0s/CIo6p9s2D9T+ADGYML/CkFKUx6RvY537OLigG1QvPiVgEvkpgT8LhBiGYEJxDX8OrVqEfd9F11HF1UoCQ5A99UAhmABOFAWWl3mO4ybsH+Rb04P6ZfkthxQMQe73/4J5UefhU7T0/RUzFkVO4Fh+zDPPl3388ZNvDx9C6qOUgAlQrbdzDpPVzPIzIju6rsxiRY0V8Ku+D5+8C7EX7gKuD7q1uu+i6Fgn/sE4BqnIjW1I5oFekYh/W5Wtu3de/wEETEBkrxWhE09iW9lReDDulvPiBs5Jm7rGlWftAKaGzjDC3lAkzxukxlo9niPT2d/hQDtkTYinFjdnoqgxl3OvhC/FgMbKa58thDcUwM/JzE6na+fq8Wv3JvPsbDzYKHtBLkZWsc0aMXbZpWqLTbCykvNBa+x4s82OnljrsXq6N6GJ6fTIlZo0qxaycVyKHAplTXl38HOC0h+bCz3N1SvXf0YIPhfBD43+Q8l32r3dmMfwE8KPxfIvwzl13wisxPSCrtKe51mx1FM0500o11seT4/TCi/k7ioEqauBx+OvIShTn0YFzsAEkOyMwBDgou7Na+RR8ZtMquIY6jq2+6JTn1Dl10DsUAYJ9bMSTFhRGo9ZQRqNH38DoAuMkkUHAAA=',
+    sessionID: process.env.SESSION_ID || 'KnightBot!H4sIAAAAAAAAA5VU25KiSBD9lY161Ri5CIIRHTGIooAKKqK4MQ8lFFjKzaoCpSf89wns6el52J3tfatKqJMn85zM7yAvMEU2asDwOygJriFD7ZE1JQJDMKriGBHQBRFkEAyBM58FK9NcF69OIt02y83rbErhxFqxwejuCHyvCCxp0i9EY/sCHl1QVscUh38AFJe0t2FbjwjudM9N+MxW/SPi9mPuvD6OmqOWOCPXW1iW3n8BjxYRYoLzZFKeUIYITG3UuBCTz9EPx4lky806i5abRYdem7MC77u960T7sclgbY29ejMJbuPP0o/62zqhFuzckbjconMabgq+4oS94088b3+LEe/w1Yy3svCNPsVJjiIzQjnDrPl03+WRVSUGovA1XI2zu1CamrUclQdVu26CizY9Z361Yc5c5JLPEYf0JlW82wvkpHM1HHEjp/sFhv76wKeo2fY0Fd2KOFyIXPA7cZe8e+Xyf/q+WJBizF2KhKZm7ayyQ3AYM0nveOurVEWZuV1HecpWXjMNP0c/rRU4iaiQJuuyHq0vLNQjjgsMUyHmtiCdVFX9ZXSoZjfugz5kFfkTy/s4V2lga0Jvk2QdRHZ3u7lzMYvrIO/L7qw8XKMeUypOmockbdKV5db4lVbHzCtw76Yeg6kibMfhsZnbR2w4kn4KTquXZ0UX1JgRGPKPLiAowZQRyHCRP2OS2AUwqjcoJIg92wuCMxwMUq2+rJZ+LZ+ni9XAiGfj/i6A/Xiqz3Xr2FySzVkstRfQBSUpQkQpimaYsoI0C0QpTBAFw7+/dUGO7uxNuDadyHdBjAll27wq0wJG76q+f4RhWFQ52zR5qLcHRMCQ+wgjxnCe0LaPVQ5JeMI10k+QUTCMYUrRrwoRQREYMlKhX1OrF1HbeM8OBjNbGYAuyJ6C4AgMgTBQhD43EBVZHfJf6ZdbCwrL8kuOGOiCHLb/Ai39i7JWtPTtkSqIsqRwkqLKA37If23Dj19sW/AIMYhTCoZAn3dmariaT8ypyNhiOtUmiaYnGvio7t0mbzJ0mHu8kovv+p1CmLneqWqq0IotRfatbelOjHuHWIXUO6T05R9AWiHh3pgfeq9JHU72F9XVFZFfiWPYZwbxp3YB13q2W8bLUrhb3qFPYnkHbTedGlwwv5q7kudohNXOfdfzR31FkhL/dEiSlzZbhGocot+TDazElC/x6uDV533C7XbETXaeMVa9pLkb18wz5FWq22fZtBz3vp6onHDpS1jw+2Qdd4JTjM00PVe+XXSO3s1Bwmyen7U3Az8HKP25uPDTWq1u7TXG6LkHfir0Hzq+0W7Nxj26vyH83Cv/MpujmHiCfJUMj4+vy9Mr1z9Skuv7JnbSjW9791EYXxvoxMLhCB6Pb11QppDFBcnAENDsiEEXkKJqrWvmcfGHTLq2MHUtmbdFp5Ay7WMcPJwhymBWgiE/UCRJVnhRevwAwqHlGEQHAAA=',
     newsletterJid: '120363161513685998@newsletter', // Newsletter JID for menu forwarding
     updateZipUrl: 'https://github.com/mruniquehacker/KnightBot-Mini/archive/refs/heads/main.zip', // URL to latest code zip for .update command
     
@@ -20,13 +20,13 @@ module.exports = {
     
     // Bot Behavior
     selfMode: false, // Private mode - only owner can use commands
-    autoRead: true,
-    autoTyping: true,
+    autoRead: false,
+    autoTyping: false,
     autoBio: false,
     autoSticker: false,
-    autoReact: true,
+    autoReact: false,
     autoReactMode: 'bot',
-    autoDownload: true,
+    autoDownload: false,
     
     // Group Settings Defaults
     defaultGroupSettings: {
@@ -81,7 +81,7 @@ module.exports = {
     },
     
     // Timezone
-    timezone: 'Africa/Johannesburg',
+    timezone: 'Asia/Kolkata',
     
     // Limits
     maxWarnings: 3,
@@ -93,4 +93,3 @@ module.exports = {
       youtube: 'http://youtube.com/@mr_unique_hacker'
     }
 };
-  
