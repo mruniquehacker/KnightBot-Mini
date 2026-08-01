@@ -6,7 +6,7 @@ module.exports = {
   category: "media",
   description: "Search videos on YouTube",
   usage: "yts <query>",
-  ownerOnly: true,
+  ownerOnly: false,
 
   async execute(sock, msg, args, extra) {
     try {
