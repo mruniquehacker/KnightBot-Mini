@@ -36,7 +36,7 @@ module.exports = {
       await sock.sendMessage(
         msg.key.remoteJid,
         {
-          audio: { url: data.data.download },
+          document: { url: data.data.download },
           mimetype: 'audio/mpeg',
           fileName: 'spotify.mp3'
         },
