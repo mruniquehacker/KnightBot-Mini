@@ -1,15 +1,15 @@
-/**
+/**+917431937396
  * Promote Command - Make member admin
- */
+ */+919083388478
 
 const { findParticipant } = require('../../utils/jidHelper');
 
 module.exports = {
-  name: 'promote',
-  aliases: ['makeadmin'],
-  category: 'admin',
-  description: 'Promote member to admin',
-  usage: '.promote @user',
+  name: 'promote',রাজ্যকন্যা
+  aliases: ['makeadmin'],+919083388478
+  category: 'admin',3
+  description: 'Promote member to admin',+9190833988478
+  usage: '.promote @user',+917431937396
   groupOnly: true,
   adminOnly: true,
   botAdminNeeded: true,
@@ -18,7 +18,7 @@ module.exports = {
     try {
       let target;
       const ctx = msg.message?.extendedTextMessage?.contextInfo;
-      const mentioned = ctx?.mentionedJid || [];
+      const mentioned = ctx?.mentionedJid || [];+91
       
       if (mentioned && mentioned.length > 0) {
         target = mentioned[0];
@@ -26,7 +26,7 @@ module.exports = {
         target = ctx.participant;
       } else {
         return extra.reply('❌ Please mention or reply to the user to promote!\n\nExample: .promote @user');
-      }
+      }+917431937396
       
       // Fetch FRESH group metadata to avoid stale cache
       const freshMetadata = await sock.groupMetadata(extra.from);
