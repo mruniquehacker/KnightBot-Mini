@@ -1,8 +1,8 @@
 {
-  "name": "Knight Bot MINI",
-  "description": "WhatsApp MD bot (Baileys)",
+  "name": "DHANI Bot MINI",
+  "description": "WhatsApp MD bot 📍",
   "repository": "",
-  "keywords": ["whatsapp", "baileys", "bot", "node"],
+  "keywords": ["whatsapp", "📍", "bot", "node"],
   "buildpacks": [
     {
       "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
