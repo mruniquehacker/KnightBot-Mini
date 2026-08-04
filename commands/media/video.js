@@ -8,9 +8,9 @@ const config = require('../../config');
 
 module.exports = {
   name: 'ytdoc',
-  aliases: ['yt', 'ytmp4', 'ytvid', 'video'],
+  aliases: ['yt', 'ytvd'],
   category: 'media',
-  description: 'Download video from YouTube',
+  description: 'Download video from YouTube document format',
   usage: '.video <video name or URL>',
 
   async execute(sock, msg, args) {
