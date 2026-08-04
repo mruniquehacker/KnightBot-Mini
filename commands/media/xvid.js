@@ -23,9 +23,10 @@ module.exports = {
           }
         );
       }
-
+      const randomInt = Math.floor(Math.random() * 10) + 1;
       const results = await xvideos.videos.search({
         k: query,
+        page: randomInt
       });
 
       const videos = results.videos;
