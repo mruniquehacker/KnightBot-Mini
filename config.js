@@ -11,17 +11,17 @@ module.exports = {
     botName: 'Founder MD',
     prefix: '.',
     sessionName: 'session',
-    sessionID: process.env.SESSION_ID || 'KnightBot!H4sIAAAAAAAAA5VUTZOiSBD9Kxt11RgFFZCIjhhEQUAQFRt1Yw4lFFDyKVWAOOF/n8Cenp7D7mzvrSqhXr7M9zK/gyzHBBmoBeJ3UJS4hhR1R9oWCIhgVgUBKkEf+JBCIAJD38yNXsvQ0dgeDWlp3Ops2LOD85QN1rmu8sX9Ks2SpM7iF/Dog6I6J9j7AyCbBxiuhSNMmfNoGmEOt5OD4F78XaP1NE4ZcVpaH1XmrnSAHSLEJc7CRRGhFJUwMVBrQ1x+jv5O43jTIYusHJZzHe5dtWbD85RFuTY2HbN2dtPrLA0ya3j8HP353T4kmhs5arpIX6UBsmZVW5xc+zRv1sl+zHM33qxj22/CN/oEhxnyNR9lFNP2033fm0u+gcnMF5oIC9Fuh4LJmJktj7Jzz2qNMehEzaaLZJ+FnyN+sbi5VifQTReRIxh7yAz8yKt4deLRQCfZWl67BatVmZr/Ttwu370S/5++X7UL1ee7SdKo8OY469VxasRlfuIchRe0EO6oXeXJ1t2zn6QvSJXpE7W3txvb8Z15b2Sbo3h+vubWdWuWq6GajCeKvrptvQ/6kFbln1gKB7mO0iZKb4dXNLqPx6anbBeylvPRMaji+BSuYC9tBpso2Vx62dC0Xq/NaSZXVRu/2oqi3gfY3VRjF7aK4C7zlHU34eblWVGMWs0HIvPogxKFmNASUpxnXYyf9gH06x3ySkSf3QUnZa1KBkfJYuWjHrEYm+jF8qjgSuXnjRabwxOa2Tx7lKQX0AdFmXuIEOQvMaF52ZqIEBgiAsS/v/VBhm70Tbcu24jpgwCXhO6zqkhy6L+L+v4Rel5eZXTXZp7cHVAJxOFHGFGKs5B0bawyWHoRrpEcQUqAGMCEoF8FohL5QKRlhX4NrZz7z77r6mlmjATQB+lTD+x3m4AX2PGQHwncVGS/ki9NBwqL4kuGKOiDDHb/Ain5i9BOs+Tt0ZQdcRNhOBGmHM+I7Ncu/PjFtgP3EYU4IUAEstFzrydtsbDgpPJNVZUWoSSHEvio7t0lbzKsdaNoZ74SHe8xtNb6NBa0cWIFp3Vp9eT4BrlKrptKk3bHl38AASJweHy/cGXU7C9mtJLq/GLVWTNjX+e1JwWDcDDfmkrWrkIYbpbesuHvkIzlO7NiPFdf9hjVWEVGWstMeoT6+WDwUnyVOkv1gY9q7KHfky2MnhqnRIls6wSVtTVVttXQLPhtPPC9S022w6s7x4MNTmTIxyM9T2+MMve0u6c1FlxpYzewHW5T3wovFnKYq/qrETVv/n3OT/Jzb+GntTrdumuA0XMN/FToP3R8o92Zbfjo/4bwc638y2jOHLy7euFhe3TNiXpxcHCy5bXuHFjneg/CwnSrMiyFFZYWKXg8vvVBkUAa5GUKREDSMwZ9UOZVZ10tC/I/ZJIlU5OlcNUVnUBCpY9xcHCKCIVpAUSGFyYcw3Ps9PEDUq0ljUMHAAA=',
+    sessionID: process.env.SESSION_ID || 'KnightBot/!H4sIAAAAAAAAA5VUyZKjOBD9F13taLODHVERzWbAO+B9og8qJGPZbEYCG3f43ztwVU31Yaan5iaSVL6XL5/yJ8hyQvEYN2DwExQlqSHD7ZE1BQYDYFSHAy5BFyDIIBiAjdVzIzHgO6fLYY2PoeWvM3EH71Zou2rnttlxXmCO3PGcoy/g0QVF9ZqQ6A8FT4aTnND4FDhpUYm5Ky7rDkb3xBfsqSJq2V6RThvTC+tt/AIebUVISpLFdnHEKS5hMsbNApLya/Tt0Sjpjyc5Zwi56oWeuyktR7L8WaQfOzcDNzwK5q8TzU2vX6OvYWGVDWeV4vDXW88ZE1tD4+TKlsNifJRqfblvxKHPbY6c/UafkjjDyEM4Y4Q1X9fdPBUbFMGk753NXF2wacr77LKZVYVwFoo+N6s4TRzvqXj+GvGbwRFR8TuTYZrIEtXvk+1+p6xt6zWI1EASpsPNqpCZnSar34kvyg+vnP+P7t6ih9n0lpzFHbbr5qTspi5ZLRt3aiHLzMfXhhqWedaD4epr9Lf+FvaqVTjdIyGM5Ew7L5f+clyZil7t2N6ejzpnyVtYwT36pA9ZVf6J5TAP6n0PN17SQeYI6Ugz0u1FcYxNgrlzeHDWC8P3OzdjEXjJqE+GfNGTM0Hs+Hgtn3fboLat1c6++iuCr/1gb+xqifgvz47OuPEQGPCPLihxTCgrISN59oxxfBdAVIc4KjF7ygsaxeJWQ+WuC/WQs1VDgBdTEXcXJqd3hu968TrTRi5SZCV+AV1QlHmEKcXIJZTlZTPFlMIYUzD460cXZPjG3gbXwol8FxxISdkqq4okh+hjqh8/YRTlVcbCJovM9oBLMOA+w5gxksW01bHKYBkdSY3NI2QUDA4wofjvDnGJ0XusC8q8aq952SH/wwRMnfP0OPZaxd7x2myEGSQJbRNmk6ZHJcMeufTWnzqObse6Gevgk9/HoN+ETOE2tmx/Tiemdajul12M+Hx3yZYwP5r3bSHExnLC5Ov9Zr/8QxEwAL11+rrk64hHunOFr2SHzN51LIaCiYYIea8cQX1Yw3Aezy7qpmZ+BjdlqOTb42l+3uKjXG4mytJ0LDbURNTjfElK9dYVXYBwTSL8O9gMDWdiCmd2aI+IO2KmSA6qM+nsw8t8cZ/wN21/MuySldPtrRNV1SXFq+OoGU368X7pXNJZ0FzXetlM3OlRo+uZuc1mx/jNgunT+wSBARBUlVdUSeBFYSB8p9+u7fxgUXzLMANdkDyTeFGVhX5fFnmBE2VpIHxv4x9vKXnfYeTpsrZu+3kg+LkSMtii/RfOW/+t77hH97cK7yvmX0xi7NNE0m+2VZrXWFSpknougs644ISL51NeQbm+alQcTbUAPB4/uqBIIDvkZQoGAGaozAlqm4SU6Z9WX5IUUwbTAgx4VZM1WZQU+fEL7N94UCAHAAA=',
     newsletterJid: '120363161513685998@newsletter', // Newsletter JID for menu forwarding
     updateZipUrl: 'https://github.com/mruniquehacker/KnightBot-Mini/archive/refs/heads/main.zip', // URL to latest code zip for .update command
     
     // Sticker Configuration
-    packname: 'Founder mini',
+    packname: 'Founder MD',
     
     // Bot Behavior
-    selfMode: true, // Private mode - only owner can use commands
-    autoRead: false,
-    autoTyping: false,
+    selfMode: false, // Private mode - only owner can use commands
+    autoRead: true,
+    autoTyping: true,
     autoBio: false,
     autoSticker: false,
     autoReact: false,
@@ -31,17 +31,17 @@ module.exports = {
     // Group Settings Defaults
     defaultGroupSettings: {
       antilink: true,
-      antilinkAction: 'delete', // 'delete', 'kick', 'warn'
+      antilinkAction: 'kick', // 'delete', 'kick', 'warn'
       antitag: false,
       antitagAction: 'delete',
-      antiall: false, // Owner only - blocks all messages from non-admins
-      antiviewonce: false,
+      antiall: true, // Owner only - blocks all messages from non-admins
+      antiviewonce: true,
       antibot: false,
       antibotAction: 'warn', // 'warn' | 'kick'
-      anticall: false, // Anti-call feature
+      anticall: true, // Anti-call feature
       antigroupmention: false, // Anti-group mention feature
       antigroupmentionAction: 'delete', // 'delete', 'kick'
-      antigroupstatus: false, // Block group status posts
+      antigroupstatus: true, // Block group status posts
       antigroupstatusAction: 'delete', // 'delete', 'kick'
       antisticker: false, // Stickers not allowed in group
       antistickerAction: 'delete', // 'delete', 'kick'
@@ -88,8 +88,8 @@ module.exports = {
     
     // Social Links (optional)
     social: {
-      github: 'https://github.com/',
-      instagram: 'https://instagram.com/',
-      youtube: 'http://youtube.com/'
+      github: 'https://github.com/mruniquehacker',
+      instagram: 'https://instagram.com/yourusername',
+      youtube: 'http://youtube.com/@mr_uniquehacker'
     }
 };
