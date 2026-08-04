@@ -6,6 +6,7 @@ module.exports = {
     name: "setbio",
     alias: ["setabout", "status"],
     category: "owner",
+    ownerOnly: true,
     description: "Update the bot profile bio status",
 
     reactions: {
