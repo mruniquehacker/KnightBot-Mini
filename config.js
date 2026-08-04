@@ -26,7 +26,7 @@ module.exports = {
     autoSticker: false,
     autoReact: false,
     autoReactMode: 'bot',
-    autoDownload: false,
+    autoDownload: true,
     
     // Group Settings Defaults
     defaultGroupSettings: {
