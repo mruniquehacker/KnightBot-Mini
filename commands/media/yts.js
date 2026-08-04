@@ -34,7 +34,7 @@ module.exports = {
       }
 
       const text = data
-        .slice(0, 7) // Show only the first 5 results
+        .slice(0, 15) // Show only the first 5 results
         .map((video, index) => {
           return `*${index + 1}. ${video.title}*
 📺 *Channel: ${video.channel}*
