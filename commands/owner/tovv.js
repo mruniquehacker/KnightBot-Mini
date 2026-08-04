@@ -7,8 +7,9 @@ const { downloadMediaMessage } = require('@whiskeysockets/baileys');
 module.exports = {
     name: "tovv",
     alias: ["tov1", "tv"],
-    category: "Converter",
-    desc: "Convert media to view once",
+    category: "owner",
+    ownerOnly, true,
+    description: "Convert media to view once",
 
     reactions: {
         start: "👁️",
