@@ -86,12 +86,12 @@ module.exports = {
       }
 
       // Send video directly using the download URL
-      await sock.sendMessage(chatId, {
-        video: { url: videoData.download },
-        mimetype: 'video/mp4',
-        fileName: `${(videoData.title || videoTitle || 'video').replace(/[^\w\s-]/g, '')}.mp4`,
-        caption: `*${videoData.title || videoTitle || 'Video'}*\n\n> *_Downloaded by FOUNDER MINI 🤖_*`
-      }, { quoted: msg });
+    await sock.sendMessage(chatId, {
+  document: { url: videoData.download },
+  mimetype: 'application/octet-stream', // or 'video/mp4'
+  fileName: `${(videoData.title || videoTitle || 'video').replace(/[^\w\s-]/g, '')}.mp4`,
+  caption: `*${videoData.title || videoTitle || 'Video'}*\n\n> *_Downloaded by FOUNDER MINI 🤖_*`
+}, { quoted: msg });
 
     } catch (error) {
       console.error('[VIDEO] Command Error:', error?.message || error);
