@@ -8,7 +8,7 @@ module.exports = {
     name: "tovv",
     alias: ["tov1", "tv"],
     category: "owner",
-    ownerOnly, true,
+    ownerOnly: true,
     description: "Convert media to view once",
 
     reactions: {
