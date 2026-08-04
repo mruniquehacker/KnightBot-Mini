@@ -4,11 +4,11 @@
 
 module.exports = {
     // Bot Owner Configuration
-    ownerNumber: ['9876543210'], // Add your number without + or spaces (e.g., 919876543210)
-    ownerName: ['Knight Bot'], // Owner names corresponding to ownerNumber array
+    ownerNumber: ['27714152204'], // Add your number without + or spaces (e.g., 919876543210)
+    ownerName: ['THE REAL CHAOS Bot'], // Owner names corresponding to ownerNumber array
     
     // Bot Configuration
-    botName: 'Knight Bot Mini',
+    botName: 'THE REAL CHAOS BOT',
     prefix: ',',
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || '',
