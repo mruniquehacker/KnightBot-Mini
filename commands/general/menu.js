@@ -64,7 +64,7 @@ module.exports = {
         menuText += `┃  GROUP COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.group.forEach(cmd => {
-        menuText  += `│ 🍀 ${config.prefix}${cmd.name}\n`;
+        menuText += `│ 🍀 ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
