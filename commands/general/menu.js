@@ -39,10 +39,10 @@ module.exports = {
       // General Commands
       if (categories.general) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 🧭 GENERAL COMMAND\n`;
+        menuText += `┃  GENERAL COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.general.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+          menuText += `│ ⚖️ ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
@@ -50,10 +50,10 @@ module.exports = {
       // AI Commands
       if (categories.ai) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 🤖 AI COMMAND\n`;
+        menuText += `┃  AI COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.ai.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+          menuText += `│ 🤖 ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
@@ -61,10 +61,10 @@ module.exports = {
       // Group Commands
       if (categories.group) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 🔵 GROUP COMMAND\n`;
+        menuText += `┃  GROUP COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.group.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+        menuText  += `│ 🍀 ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
@@ -72,10 +72,10 @@ module.exports = {
       // Admin Commands
       if (categories.admin) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 🛡️ ADMIN COMMAND\n`;
+        menuText += `┃  ADMIN COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.admin.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+          menuText += `| 💂 ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
@@ -83,10 +83,10 @@ module.exports = {
       // Owner Commands
       if (categories.owner) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 👑 OWNER COMMAND\n`;
+        menuText += `┃  OWNER COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.owner.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+          menuText += `| 👑 ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
@@ -94,10 +94,10 @@ module.exports = {
       // Media Commands
       if (categories.media) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 🎞️ MEDIA COMMAND\n`;
+        menuText += `┃  MEDIA COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.media.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+          menuText += `│ 📹 ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
@@ -105,10 +105,10 @@ module.exports = {
       // Fun Commands
       if (categories.fun) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 🎭 FUN COMMAND\n`;
+        menuText += `┃  FUN COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.fun.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+          menuText += `│ 💎 ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
@@ -120,10 +120,10 @@ module.exports = {
         );
         if (economyCmds.length) {
           menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-          menuText += `┃ 💰 ECONOMY COMMAND\n`;
+          menuText += `┃  ECONOMY COMMAND\n`;
           menuText += `┗━━━━━━━━━━━━━━━━━\n`;
           economyCmds.forEach(cmd => {
-            menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+            menuText += `│ 💴 ${config.prefix}${cmd.name}\n`;
           });
           menuText += `\n`;
         }
@@ -132,21 +132,21 @@ module.exports = {
       // Utility Commands
       if (categories.utility) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 🔧 UTILITY COMMAND\n`;
+        menuText += `┃  UTILITY COMMAND\n`
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.utility.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+          menuText += `│ ⚙️ ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
 
        // Anime Commands
-       if (categories.anime) {
+       if (categories.nsfw) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 🔞 NSFW COMMAND\n`;
+        menuText += `┃  NSFW COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.nsfw.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+          menuText += `│ 🍁 ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
@@ -154,10 +154,10 @@ module.exports = {
        // Textmaker Commands
        if (categories.utility) {
         menuText += `┏━━━━━━━━━━━━━━━━━\n`;
-        menuText += `┃ 🖋️ TEXTMAKER COMMAND\n`;
+        menuText += `┃  TEXTMAKER COMMAND\n`;
         menuText += `┗━━━━━━━━━━━━━━━━━\n`;
         categories.textmaker.forEach(cmd => {
-          menuText += `│ ➜ ${config.prefix}${cmd.name}\n`;
+          menuText += `│ 🎨 ${config.prefix}${cmd.name}\n`;
         });
         menuText += `\n`;
       }
