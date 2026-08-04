@@ -1,53 +1,44 @@
 module.exports = {
     name: 'join',
-    aliases: ['joingroup'],
-    category: 'owner',
+    aliases: ['j'],
     desc: 'Join a WhatsApp group using an invite link',
+    category: 'admin',
+
     ownerOnly: true,
+
     reactions: {
         start: '🔗',
         success: '✅'
     },
 
-    execute: async (sock, m, { args, reply }) => {
+    execute: async (sock, msg, args, {
+        reply,
+        react
+    }) => {
         try {
-            const text = args.join(' ') || m.body || '';
+            await react('🔗');
 
-            const match = text.match(
-                /chat\.whatsapp\.com\/([A-Za-z0-9_-]{20,30})/i
-            );
-
-            if (!match) {
-                return reply(
-                    '❌ Please provide a valid WhatsApp group invite link.\n\n' +
-                    'Example:\n' +
-                    '.join https://chat.whatsapp.com/AbCdEfGhIjKlMnOpQrStUv'
-                );
+            if (!args.length) {
+                return reply('Example:\n.join https://chat.whatsapp.com/xxxxxxxxxxxxxxxxxxxxxx');
             }
 
-            const inviteCode = match[1];
+            const link = args.join(' ');
 
-            await reply('⏳ Joining group...');
+            const match = link.match(/chat\.whatsapp\.com\/([A-Za-z0-9]{20,24})/i);
 
-            const groupJid = await sock.groupAcceptInvite(inviteCode);
+            if (!match) {
+                return reply('❌ Invalid WhatsApp invite link.');
+            }
 
-            await reply(`✅ Successfully joined the group!\n\n${groupJid}`);
+            const code = match[1];
 
+            await sock.groupAcceptInvite(code);
+
+            await react('✅');
+            reply('✅ Successfully joined the group.');
         } catch (err) {
-            console.error('JOIN ERROR:', err);
-
-            let msg = '❌ Failed to join the group.';
-
-            if (err.message?.includes('401'))
-                msg = '❌ The invite link is invalid or has been revoked.';
-
-            else if (err.message?.includes('409'))
-                msg = 'ℹ️ The bot is already in that group.';
-
-            else if (err.message?.includes('500'))
-                msg = '❌ WhatsApp rejected the request. Try again later.';
-
-            reply(msg);
+            console.error(err);
+            reply(`❌ ${err.message}`);
         }
     }
 };
