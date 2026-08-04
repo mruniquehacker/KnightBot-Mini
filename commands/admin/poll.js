@@ -30,7 +30,7 @@ const createSeparator = () => "──────────────";
 module.exports = {
     name: 'poll',
     aliases: ['createpoll', 'vote'],
-    category: 'group',
+    category: 'admin',
     adminOnly: true,
     description: 'Create a poll with a question and options',
     usage: '.poll Question | Option 1 | Option 2 | Option 3',
