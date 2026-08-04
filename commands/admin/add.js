@@ -1,120 +1,90 @@
 module.exports = {
     name: 'add',
     aliases: ['adduser'],
-    category: 'admin',
-    desc: 'Add members to a group',
+    desc: 'Add a member to the group',
+    category: 'Admin',
+
     groupOnly: true,
     adminOnly: true,
-     },
+    botAdminNeeded: true,
 
-    execute: async (sock, m, { args, reply }) => {
+    reactions: {
+        start: '➕',
+        success: '✅'
+    },
+
+    execute: async (sock, msg, args, {
+        from,
+        reply,
+        react
+    }) => {
         try {
-            const targets = [];
+            await react('➕');
 
-            if (m.quoted?.sender)
-                targets.push(m.quoted.sender);
+            let jid;
 
-            if (m.mentionedJid?.length) {
-                for (const jid of m.mentionedJid) {
-                    if (!targets.includes(jid))
-                        targets.push(jid);
-                }
+            // Reply target
+            if (msg.quoted?.sender) {
+                jid = msg.quoted.sender;
             }
 
-            if (!targets.length) {
-                for (const arg of args) {
-                    const number = arg.replace(/\D/g, '');
-
-                    if (number.length < 7)
-                        continue;
-
-                    const jid = `${number}@s.whatsapp.net`;
-
-                    if (!targets.includes(jid))
-                        targets.push(jid);
-                }
+            // Mention target
+            if (!jid && msg.mentionedJid?.length) {
+                jid = msg.mentionedJid[0];
             }
 
-            if (!targets.length)
+            // Number from args
+            if (!jid && args.length) {
+                let number = args[0].replace(/\D/g, '');
+
+                if (number.startsWith('0')) {
+                    number = '27' + number.slice(1);
+                }
+
+                if (number.length < 8) {
+                    return reply('❌ Invalid phone number.');
+                }
+
+                jid = `${number}@s.whatsapp.net`;
+            }
+
+            if (!jid) {
                 return reply(
-                    `Example:\n` +
-                    `.add 27821234567\n` +
-                    `.add @user\n` +
-                    `Reply with .add`
+                    'Usage:\n' +
+                    '• .add @user\n' +
+                    '• .add 27712345678\n' +
+                    '• Reply to someone with .add'
                 );
+            }
 
-            const metadata = await sock.groupMetadata(m.chat);
-
-            const existing = new Set(
-                metadata.participants.map(p => p.id)
+            const result = await sock.groupParticipantsUpdate(
+                from,
+                [jid],
+                'add'
             );
 
-            const added = [];
-            const privacy = [];
-            const failed = [];
-            const already = [];
+            const status = Number(result?.[0]?.status);
 
-            for (const jid of targets) {
+            switch (status) {
+                case 200:
+                    await react('✅');
+                    return reply('✅ Member added successfully.');
 
-                if (existing.has(jid)) {
-                    already.push(jid);
-                    continue;
-                }
+                case 403:
+                    return reply("❌ Can't add this user because of their privacy settings.");
 
-                try {
+                case 404:
+                    return reply('❌ User is not registered on WhatsApp.');
 
-                    const [res] = await sock.groupParticipantsUpdate(
-                        m.chat,
-                        [jid],
-                        'add'
-                    );
+                case 408:
+                    return reply('❌ Invite expired or timed out.');
 
-                    switch (String(res.status)) {
+                case 409:
+                    return reply('ℹ️ User is already in the group.');
 
-                        case '200':
-                            added.push(jid);
-                            break;
-
-                        case '403':
-                        case '401':
-                        case '409':
-                            privacy.push(jid);
-                            break;
-
-                        default:
-                            failed.push(jid);
-                    }
-
-                } catch {
-                    failed.push(jid);
-                }
-
-                await new Promise(r => setTimeout(r, 500));
+                default:
+                    return reply(`❌ Failed to add user.\nStatus: ${status || 'Unknown'}`);
             }
-
-            let text = '';
-
-            if (added.length)
-                text += `✅ *Added*\n${added.map(v => `• @${v.split('@')[0]}`).join('\n')}\n\n`;
-
-            if (already.length)
-                text += `ℹ️ *Already in group*\n${already.map(v => `• @${v.split('@')[0]}`).join('\n')}\n\n`;
-
-            if (privacy.length)
-                text += `🔒 *Couldn't add (privacy settings)*\n${privacy.map(v => `• @${v.split('@')[0]}`).join('\n')}\n\n`;
-
-            if (failed.length)
-                text += `❌ *Failed*\n${failed.map(v => `• @${v.split('@')[0]}`).join('\n')}`;
-
-            if (!text)
-                text = "Nothing happened.";
-
-            await sock.sendMessage(m.chat, {
-                text,
-                mentions: [...added, ...already, ...privacy, ...failed]
-            }, {
-                quoted: m
-            });
 
         } catch (err) {
             console.error(err);
