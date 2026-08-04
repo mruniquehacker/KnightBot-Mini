@@ -7,8 +7,8 @@ const APIs = require('../../utils/api');
 const config = require('../../config');
 
 module.exports = {
-  name: 'ytvideo',
-  aliases: ['ytv', 'ytmp4', 'ytvid', 'video'],
+  name: 'ytdoc',
+  aliases: ['yt', 'ytmp4', 'ytvid', 'video'],
   category: 'media',
   description: 'Download video from YouTube',
   usage: '.video <video name or URL>',
