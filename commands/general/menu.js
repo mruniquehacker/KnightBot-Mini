@@ -2,6 +2,10 @@
  * Menu Command - Display all available commands
  */
 
+/**
+ * Dynamic Menu Command
+ */
+
 const fs = require('fs');
 const path = require('path');
 const config = require('../../config');
@@ -9,13 +13,14 @@ const { loadCommands } = require('../../utils/commandLoader');
 
 module.exports = {
     name: 'menu',
-    aliases: ['help', 'commands'],
+    aliases: ['commands'],
     category: 'general',
-    description: 'Displays the bot menu',
-    usage: '.menu',
+    description: 'Display the bot menu',
+    usage: '.menu [category]',
 
     async execute(sock, msg, args, extra) {
         try {
+
             const commands = loadCommands();
 
             const categories = {};
@@ -23,6 +28,7 @@ module.exports = {
 
             // Remove aliases
             for (const [name, cmd] of commands.entries()) {
+
                 if (cmd.name !== name) continue;
 
                 unique.push(cmd);
@@ -31,6 +37,7 @@ module.exports = {
 
                 if (!categories[cat]) categories[cat] = [];
                 categories[cat].push(cmd);
+
             }
 
             const categoryIcons = {
@@ -39,19 +46,19 @@ module.exports = {
                 group: '👥',
                 admin: '🛡️',
                 media: '🎵',
-                downloader: '📥',
                 download: '📥',
+                downloader: '📥',
                 utility: '⚙️',
                 tools: '🧰',
                 owner: '👑',
                 fun: '🎲',
-                economy: '💰',
-                nsfw: '🍁',
                 anime: '🌸',
-                textmaker: '🎨',
+                economy: '💰',
+                games: '🎮',
                 search: '🔍',
                 convert: '🔄',
-                games: '🎮',
+                textmaker: '🎨',
+                nsfw: '🍁',
                 misc: '📦',
                 other: '📁'
             };
@@ -60,47 +67,134 @@ module.exports = {
                 ? config.ownerName[0]
                 : config.ownerName;
 
+            const order = [
+                'general',
+                'ai',
+                'group',
+                'admin',
+                'media',
+                'download',
+                'downloader',
+                'utility',
+                'tools',
+                'fun',
+                'anime',
+                'economy',
+                'games',
+                'search',
+                'convert',
+                'textmaker',
+                'owner',
+                'misc',
+                'other'
+            ];
+
+            const sortedCategories = [
+                ...order.filter(c => categories[c]),
+                ...Object.keys(categories)
+                    .filter(c => !order.includes(c))
+                    .sort()
+            ];
+
+            const requested = (args[0] || '').toLowerCase();
+
             let text = '';
 
-            text += `╭───────────────────────────────╮\n`;
-            text += `│         🤖 ${config.botName.toUpperCase()}         │\n`;
-            text += `│     Multi Device WhatsApp Bot │\n`;
-            text += `╰───────────────────────────────╯\n\n`;
+            // ===================================================
+            // CATEGORY MENU
+            // ===================================================
 
-            text += `╭─〔 👤 USER INFO 〕──────────────\n`;
-            text += `│ 👤 User      : @${extra.sender.split('@')[0]}\n`;
-            text += `│ 👑 Owner     : ${owner}\n`;
-            text += `│ ⚡ Prefix    : ${config.prefix}\n`;
-            text += `│ 📦 Commands  : ${unique.length}\n`;
-            text += `│ 📂 Categories: ${Object.keys(categories).length}\n`;
-            text += `│ 🚀 Version   : 1.0.3\n`;
-            text += `╰───────────────────────────────\n`;
+            if (requested) {
 
-            const sortedCategories = Object.keys(categories).sort();
+                if (!categories[requested]) {
 
-            for (const cat of sortedCategories) {
+                    text =
+`❌ Category *${requested}* was not found.
 
-                const cmds = categories[cat]
-                    .sort((a, b) => a.name.localeCompare(b.name));
+Available categories:
 
-                text += `\n`;
-                text += `╭─〔 ${categoryIcons[cat] || '📁'} ${cat.toUpperCase()} 〕`;
+${sortedCategories.join(', ')}
 
-                text += '─'.repeat(Math.max(0, 26 - cat.length));
-                text += `\n`;
+Example:
+${config.prefix}menu ai`;
 
-                cmds.forEach(cmd => {
-                    text += `│ • ${config.prefix}${cmd.name}\n`;
-                });
+                } else {
 
-                text += `╰───────────────────────────────\n`;
+                    const cmds = categories[requested]
+                        .sort((a, b) => a.name.localeCompare(b.name));
+
+                    text += `╭━━━━━━━━━━━━━━━━━━━━━━━⬣\n`;
+                    text += `┃ ${categoryIcons[requested] || '📁'} ${requested.toUpperCase()} COMMANDS\n`;
+                    text += `╰━━━━━━━━━━━━━━━━━━━━━━━⬣\n\n`;
+
+                    for (const cmd of cmds) {
+
+                        text += `• ${config.prefix}${cmd.name}`;
+
+                        if (cmd.description)
+                            text += ` — ${cmd.description}`;
+
+                        text += '\n';
+
+                    }
+
+                    text += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
+                    text += `💡 ${config.prefix}help <command>`;
+
+                }
+
             }
 
-            text += `\n`;
-            text += `╭───────────────────────────────╮\n`;
-            text += `│ 💡 ${config.prefix}help <command>\n`;
-            text += `│ ❤️ Thanks for using ${config.botName}\n`;
-            text += `╰───────────────────────────────╯`;
+            // ===================================================
+            // MAIN MENU
+            // ===================================================
+
+            else {
+
+                const uptime = process.uptime();
+
+                const hours = Math.floor(uptime / 3600);
+                const minutes = Math.floor((uptime % 3600) / 60);
+                const seconds = Math.floor(uptime % 60);
+
+                const ram = (
+                    process.memoryUsage().rss /
+                    1024 /
+                    1024
+                ).toFixed(0);
+
+                text += `╭━━━━━━━━━━━━━━━━━━━━━━━⬣\n`;
+                text += `┃ 🤖 ${config.botName.toUpperCase()}\n`;
+                text += `┃ Multi Device WhatsApp Bot\n`;
+                text += `╰━━━━━━━━━━━━━━━━━━━━━━━⬣\n\n`;
+
+                text += `👤 User      : @${extra.sender.split('@')[0]}\n`;
+                text += `👑 Owner     : ${owner}\n`;
+                text += `⚡ Prefix    : ${config.prefix}\n`;
+                text += `📦 Commands  : ${unique.length}\n`;
+                text += `📂 Categories: ${sortedCategories.length}\n`;
+                text += `💾 RAM       : ${ram} MB\n`;
+                text += `⏱️ Uptime    : ${hours}h ${minutes}m ${seconds}s\n`;
+                text += `🖥 Platform  : ${process.platform}\n`;
+
+                text += `\n━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                text += `📂 Categories\n\n`;
+
+                for (const cat of sortedCategories) {
+
+                    text += `${categoryIcons[cat] || '📁'} ${cat.padEnd(12)} (${categories[cat].length})\n`;
+
+                }
+
+                text += `\n━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                text += `💡 ${config.prefix}menu <category>\n`;
+                text += `💡 ${config.prefix}help <command>\n\n`;
+
+                text += `Examples\n`;
+                text += `${config.prefix}menu ai\n`;
+                text += `${config.prefix}menu download`;
+
+            }
 
             const imagePath = path.join(__dirname, '../../utils/bot_image.jpg');
 
@@ -141,7 +235,9 @@ module.exports = {
             }
 
         } catch (err) {
+
             console.error(err);
+
             await sock.sendMessage(
                 extra.from,
                 {
@@ -149,6 +245,7 @@ module.exports = {
                 },
                 { quoted: msg }
             );
+
         }
     }
 };
