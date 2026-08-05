@@ -97,15 +97,14 @@ module.exports = {
                     // Error State: Category not found
                     text = `❌ Category *${requested}* was not found.\n\nAvailable categories:\n\n${sortedCategories.join(', ')}\n\nExample:\n${config.prefix}menu ai`;
                 } else {
-                    // Success State: Display commands in category
+                    // Success State: Display commands in category with its dedicated emoji
                     const cmds = categories[requested].sort((a, b) => a.name.localeCompare(b.name));
+                    const catEmoji = categoryIcons[requested] || '📁';
                     
                     text += createHeader(requested) + '\n\n';
 
                     for (const cmd of cmds) {
-                        text += `•*${config.prefix}${cmd.name}*`;
-                        // if (cmd.usage) text += `\n — ${cmd.usage}`;
-                        text += '\n';
+                        text += `${catEmoji} *${config.prefix}${cmd.name}*\n`;
                     }
 
                     text += `\n${createSeparator()}\n`;
@@ -141,7 +140,6 @@ module.exports = {
                 text += createHeader('Categories') + '\n\n';
 
                 for (const cat of sortedCategories) {
-                    // Using simple space separator instead of padEnd for proportional font compatibility
                     text += `${categoryIcons[cat] || '📁'} ${cat.charAt(0).toUpperCase() + cat.slice(1)} (${categories[cat].length})\n`;
                 }
 
