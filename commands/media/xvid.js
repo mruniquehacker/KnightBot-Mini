@@ -44,7 +44,7 @@ module.exports = {
       }
 
       const text = videos
-        .slice(0, 7)
+        .slice(0, 15)
         .map((video, index) => {
           return `*${index + 1}. ${video.title}*
 ⏱️ *Duration:* ${video.duration}
