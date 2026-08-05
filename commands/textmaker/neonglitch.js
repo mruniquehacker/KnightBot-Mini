@@ -7,7 +7,7 @@ const config = require('../../config');
 
 module.exports = {
   name: 'neonglitch',
-  aliases: ['glitch', 'neon'],
+  aliases: ['nglitch', 'neon'],
   category: 'textmaker',
   description: 'Create a neon glitch text effect',
   usage: '.neonglitch <text>',
