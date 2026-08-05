@@ -921,11 +921,7 @@ if (!msg.key.fromMe && body) {
 }
 
 // Check if message starts with prefix
-if (!body.startsWith(config.prefix)) return;
-    
-    // Check if message starts with prefix
-    if (!body.startsWith(config.prefix)) return;
-    
+if (!body.startsWith(config.prefix)) 
     // Parse command
     const args = body.slice(config.prefix.length).trim().split(/\s+/);
     const commandName = args.shift().toLowerCase();
