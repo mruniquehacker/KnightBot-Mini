@@ -104,7 +104,7 @@ module.exports = {
 
                     for (const cmd of cmds) {
                         text += `•*${config.prefix}${cmd.name}*`;
-                        if (cmd.usage) text += `\n — ${cmd.usage}`;
+                        // if (cmd.usage) text += `\n — ${cmd.usage}`;
                         text += '\n';
                     }
 
