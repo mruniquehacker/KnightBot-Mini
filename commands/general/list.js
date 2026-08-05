@@ -60,25 +60,12 @@ module.exports = {
         text: menu,
         footer: `> *Powered by ${config.botName}*`,
         buttons: [
+         
           {
             name: 'cta_url',
             buttonParamsJson: JSON.stringify({
-              display_text: 'Youtube',
-              url: config.social?.youtube || 'http://youtube.com/@mr_unique_hacker'
-            })
-          },
-          {
-            name: 'cta_url',
-            buttonParamsJson: JSON.stringify({
-              display_text: 'Visit Bot Repo',
-              url: config.social?.github || 'https://github.com/mruniquehacker'
-            })
-          },
-          {
-            name: 'cta_url',
-            buttonParamsJson: JSON.stringify({
-              display_text: 'Join Channel',
-              url: 'https://whatsapp.com/channel/0029Va90zAnIHphOuO8Msp3A'
+              display_text: 'Join Group',
+              url: 'https://chat.whatsapp.com/DXdVqaHPBM2Eed2DRJkd7S?s=cl&p=i&mlu=4&amv=0'
             })
           }
         ]

@@ -1,45 +1,38 @@
-/**
- * Neko Command - Get random neko anime images
- */
-
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const { getTempDir, deleteTempFile } = require('../../utils/tempManager');
 
-const BASE = 'https://api.princetechn.com/api/anime/neko';
-const API_KEY = 'prince';
+const BASE = 'https://api.nekosapi.com/v4/images/random';
 
 module.exports = {
   name: 'neko',
-  aliases: ['nekosfw'],
-  category: 'anime',
-  desc: 'Get random neko SFW anime images',
+  aliases: ['catgirl', 'waifu'],
+  category: 'nsfw',
+  desc: 'Get a random neko image',
   usage: 'neko',
+
   execute: async (sock, msg, args, extra) => {
     try {
-      // Fetch JSON from API to get image URL
-      const url = `${BASE}?apikey=${API_KEY}`;
-      const response = await axios.get(url, {
+      const { data } = await axios.get(BASE, {
         headers: {
           'User-Agent': 'Mozilla/5.0',
           'Accept': 'application/json'
         },
         timeout: 30000
       });
-      
-      // Extract image URL from response
-      if (!response.data || !response.data.result) {
-        throw new Error('Invalid API response: missing image URL');
+
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error('No images returned from the API');
       }
-      
-      const imageUrl = response.data.result;
-      
-      if (!imageUrl || typeof imageUrl !== 'string') {
-        throw new Error('Invalid image URL in API response');
+
+      const image = data[0];
+      const imageUrl = image.url;
+
+      if (!imageUrl) {
+        throw new Error('Invalid image URL');
       }
-      
-      // Download image from the URL
+
       const imageResponse = await axios.get(imageUrl, {
         responseType: 'arraybuffer',
         headers: {
@@ -48,78 +41,49 @@ module.exports = {
         },
         timeout: 30000
       });
-      
+
       const imageBuffer = Buffer.from(imageResponse.data);
-      
-      // Verify buffer is valid
-      if (!imageBuffer || imageBuffer.length === 0) {
+
+      if (!imageBuffer.length) {
         throw new Error('Empty image response');
       }
-      
-      // Check file size (WhatsApp image limit is 5MB)
-      const maxImageSize = 5 * 1024 * 1024; // 5MB
-      if (imageBuffer.length > maxImageSize) {
-        throw new Error(`Image too large: ${(imageBuffer.length / 1024 / 1024).toFixed(2)}MB (max 5MB)`);
-      }
-      
-      // Determine file extension from URL or content type
+
       const contentType = imageResponse.headers['content-type'] || '';
       let extension = 'jpg';
-      if (contentType.includes('png')) {
-        extension = 'png';
-      } else if (contentType.includes('jpeg')) {
-        extension = 'jpg';
-      } else if (imageUrl.match(/\.(png|jpg|jpeg)$/i)) {
-        const match = imageUrl.match(/\.(png|jpg|jpeg)$/i);
-        extension = match[1].toLowerCase();
-      }
-      
-      // Write to temp file first, then read back to ensure buffer is valid
+
+      if (contentType.includes('png')) extension = 'png';
+      else if (contentType.includes('webp')) extension = 'webp';
+      else if (contentType.includes('jpeg')) extension = 'jpg';
+
       const tempDir = getTempDir();
-      const timestamp = Date.now();
-      const tempImagePath = path.join(tempDir, `neko_${timestamp}.${extension}`);
-      
-      let finalBuffer = null;
-      
+      const tempPath = path.join(tempDir, `neko_${Date.now()}.${extension}`);
+
       try {
-        // Write buffer to temp file
-        fs.writeFileSync(tempImagePath, imageBuffer);
-        
-        // Read back from file to ensure buffer is properly formed
-        finalBuffer = fs.readFileSync(tempImagePath);
-        
-        if (!finalBuffer || finalBuffer.length === 0) {
-          throw new Error('Failed to read image from temp file');
-        }
-        
-        // Send the image
-        await sock.sendMessage(extra.from, {
-          image: finalBuffer
-        }, { quoted: msg });
-        
+        fs.writeFileSync(tempPath, imageBuffer);
+
+        await sock.sendMessage(
+          extra.from,
+          {
+            image: fs.readFileSync(tempPath)
+          },
+          { quoted: msg }
+        );
       } finally {
-        // Cleanup temp file
-        try {
-          deleteTempFile(tempImagePath);
-        } catch (cleanupError) {
-          // Ignore cleanup errors
-        }
+        deleteTempFile(tempPath);
       }
-      
+
     } catch (error) {
       console.error('Error in neko command:', error);
-      
-      // Handle specific error cases
-      if (error.response?.status === 404) {
-        await extra.reply('❌ Image not found. Please try again.');
-      } else if (error.response?.status === 429) {
-        await extra.reply('❌ Rate limit exceeded. Please try again later.');
-      } else if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
-        await extra.reply('❌ Request timed out. Please try again.');
-      } else {
-        await extra.reply(`❌ Failed to fetch neko image: ${error.message}`);
+
+      if (error.response?.status === 429) {
+        return extra.reply('❌ Rate limit exceeded. Please try again later.');
       }
+
+      if (error.code === 'ECONNABORTED') {
+        return extra.reply('❌ Request timed out. Please try again.');
+      }
+
+      return extra.reply(`❌ Failed to fetch image: ${error.message}`);
     }
   }
 };
-

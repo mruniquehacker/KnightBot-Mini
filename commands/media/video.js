@@ -7,17 +7,18 @@ const APIs = require('../../utils/api');
 const config = require('../../config');
 
 module.exports = {
-  name: 'ytvideo',
-  aliases: ['ytv', 'ytmp4', 'ytvid', 'video'],
+  name: 'ytdoc',
+  aliases: ['yt', 'ytvd'],
   category: 'media',
-  description: 'Download video from YouTube',
+  description: 'Download video from YouTube document format',
   usage: '.video <video name or URL>',
 
   async execute(sock, msg, args) {
     try {
       // Get instance-specific config
-      const instanceConfig = config.getConfigFromSocket(sock);
-
+      // const instanceConfig = config.getConfigFromSocket(sock);
+      // the command above is very useless and crashes the bot
+      
       const text = args.join(' ');
       const chatId = msg.key.remoteJid;
 
@@ -85,12 +86,12 @@ module.exports = {
       }
 
       // Send video directly using the download URL
-      await sock.sendMessage(chatId, {
-        video: { url: videoData.download },
-        mimetype: 'video/mp4',
-        fileName: `${(videoData.title || videoTitle || 'video').replace(/[^\w\s-]/g, '')}.mp4`,
-        caption: `*${videoData.title || videoTitle || 'Video'}*\n\n> *_Downloaded by ${instanceConfig.botName}_*`
-      }, { quoted: msg });
+    await sock.sendMessage(chatId, {
+  document: { url: videoData.download },
+  mimetype: 'application/octet-stream', // or 'video/mp4'
+  fileName: `${(videoData.title || videoTitle || 'video').replace(/[^\w\s-]/g, '')}.mp4`,
+  caption: `*${videoData.title || videoTitle || 'Video'}*\n\n> *_Downloaded by FOUNDER MINI 🤖_*`
+}, { quoted: msg });
 
     } catch (error) {
       console.error('[VIDEO] Command Error:', error?.message || error);

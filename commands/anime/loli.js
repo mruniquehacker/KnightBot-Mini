@@ -13,7 +13,7 @@ const API_KEY = 'prince';
 module.exports = {
   name: 'loli',
   aliases: ['lolinsfw'],
-  category: 'anime',
+  category: 'nsfw',
   desc: 'Get random loli NSFW anime images',
   usage: 'loli',
   execute: async (sock, msg, args, extra) => {
