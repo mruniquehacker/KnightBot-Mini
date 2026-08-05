@@ -1,7 +1,7 @@
 /**
  * Message Handler - Processes incoming messages and executes commands
  */
-
+const autoDownload = require('./utils/autodownload');
 const config = require('./config');
 const database = require('./database');
 const { loadCommands } = require('./utils/commandLoader');
@@ -903,6 +903,26 @@ const handleMessage = async (sock, msg) => {
       }
     }
 
+    //
+
+    // Auto Downloader
+if (!msg.key.fromMe && body) {
+    try {
+        const handled = await autoDownload(sock, msg, {
+            body,
+            from,
+            sender
+        });
+
+        if (handled) return;
+    } catch (e) {
+        console.error("[AUTO DOWNLOAD]", e);
+    }
+}
+
+// Check if message starts with prefix
+if (!body.startsWith(config.prefix)) return;
+    
     // Check if message starts with prefix
     if (!body.startsWith(config.prefix)) return;
     
