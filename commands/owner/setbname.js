@@ -1,9 +1,9 @@
 module.exports = {
-    name: 'setbotname',
-    aliases: ['botname', 'setname'],
+    name: 'setppname',
+    aliases: ['pn', 'name'],
     category: 'owner',
     description: 'Change the bot profile name',
-    usage: 'setbotname <new name>',
+    usage: 'setppname <new name>',
     ownerOnly: true,
     reactions: {
         start: '✏️',
