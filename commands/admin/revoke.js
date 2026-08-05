@@ -1,7 +1,7 @@
 module.exports = {
     name: 'revokelink',
     aliases: ['resetlink', 'revokeinvite', 'rvk'],
-    category: 'Group',
+    category: 'admin',
     description: 'Revoke the current group invite link',
     usage: 'revokelink',
     groupOnly: true,
