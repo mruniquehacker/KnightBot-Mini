@@ -1,11 +1,10 @@
 module.exports = {
     name: 'approverequests',
     alias: ['approveall', 'acceptrequests'],
-    desc: 'Approve all pending group join requests',
+    description: 'Approve all pending group join requests',
     category: 'admin',
     groupOnly: true,
     adminOnly: true,
-    botAdmin: true,
     reactions: {
         start: '⏳',
         success: '✅',
