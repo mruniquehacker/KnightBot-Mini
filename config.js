@@ -34,7 +34,7 @@ module.exports = {
       antilinkAction: 'kick', // 'delete', 'kick', 'warn'
       antitag: false,
       antitagAction: 'delete',
-      antiall: true, // Owner only - blocks all messages from non-admins
+      antiall: false, // Owner only - blocks all messages from non-admins
       antiviewonce: true,
       antibot: false,
       antibotAction: 'warn', // 'warn' | 'kick'
