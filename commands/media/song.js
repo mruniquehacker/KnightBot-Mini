@@ -9,9 +9,7 @@ const axios = require('axios');
 const APIs = require('../../utils/api');
 const { toAudio } = require('../../utils/converter');
 const config = require('../../config');
-
-const UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+const { knightDownload, getMediaApiConfig, maskKey, UA } = require('../../utils/mediaApi');
 
 const AXIOS_DEFAULTS = {
   timeout: 60000,
@@ -21,10 +19,13 @@ const AXIOS_DEFAULTS = {
   },
 };
 
-const YT_API = config.mediaApiUrl;
-const YT_API_KEY = config.mediaApiKey;
-const PRINCE_API = String(config.princeApiUrl || 'https://api.princetechn.com').replace(/\/$/, '');
-const PRINCE_API_KEY = config.princeApiKey || 'prince';
+function princeApiCreds() {
+  const { prince, princeKey } = getMediaApiConfig();
+  return {
+    base: prince || String(config.princeApiUrl || 'https://api.princetechn.com').replace(/\/$/, ''),
+    key: princeKey || config.princeApiKey || 'prince_tech_api_azfsbshfb',
+  };
+}
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -91,6 +92,7 @@ function toYouTubeWatchUrl(input) {
 
 async function princeSongDownload(url, attempts = 2) {
   const watchUrl = toYouTubeWatchUrl(url);
+  const { base: PRINCE_API, key: PRINCE_API_KEY } = princeApiCreds();
   let lastError;
   for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
@@ -161,43 +163,14 @@ async function hectorSongDownload(url, attempts = 2) {
   throw lastError || new Error('Hector API failed');
 }
 
-async function knightSongDownload(url, attempts = 3) {
-  let lastError;
-  for (let attempt = 1; attempt <= attempts; attempt++) {
-    try {
-      const { data, status } = await axios.get(`${YT_API}/api/download/ytaudio`, {
-        params: { apikey: YT_API_KEY, format: '128kbps', url },
-        timeout: 180000,
-        validateStatus: () => true,
-        headers: { Accept: 'application/json', 'User-Agent': UA },
-      });
-
-      if (status >= 500 || !data?.success) {
-        const msg =
-          data?.result?.error ||
-          data?.error ||
-          data?.message ||
-          `Knight API HTTP ${status}`;
-        throw new Error(msg);
-      }
-
-      // Prefer simple endpoint shape if nested result missing
-      const result = data.result || data;
-      const download = pickUrl(result);
-      if (!download) throw new Error('Knight API returned no download URL');
-
-      return {
-        download,
-        title: result?.title,
-        thumbnail: result?.thumbnail || null,
-      };
-    } catch (err) {
-      lastError = err;
-      console.log(`[song] Knight attempt ${attempt}/${attempts}:`, err.message);
-      if (attempt < attempts) await sleep(1500 * attempt);
-    }
-  }
-  throw lastError || new Error('Knight API failed');
+async function knightSongDownload(url) {
+  const { base, key } = getMediaApiConfig();
+  console.log(`[song] Knight primary → ${base} (key=${maskKey(key)})`);
+  return knightDownload(
+    '/api/download/ytaudio',
+    { format: '128kbps', url },
+    { timeout: 180000, attemptsPerBase: 2 }
+  );
 }
 
 async function prexzySongDownload(url) {
@@ -300,12 +273,13 @@ module.exports = {
       let audioData;
       let audioBuffer;
       let downloadSuccess = false;
+      let lastFailReason = '';
 
-      // Hector first, Knight second. Prince and the rest are fallbacks. Prexzy googlevideo URLs are IP-locked → skip early.
+      // Knight (knightbotapi.stream) first — other hosts are backup only.
       const apiMethods = [
-        { name: 'Hector', method: () => hectorSongDownload(video.url) },
         { name: 'Knight API', method: () => knightSongDownload(video.url) },
         { name: 'Prince API', method: () => princeSongDownload(video.url) },
+        { name: 'Hector', method: () => hectorSongDownload(video.url) },
         { name: 'Prexzy', method: () => prexzySongDownload(video.url) },
         { name: 'EliteProTech', method: () => APIs.getEliteProTechDownloadByUrl(video.url) },
         { name: 'Yupra', method: () => APIs.getYupraDownloadByUrl(video.url) },
@@ -319,11 +293,13 @@ module.exports = {
           const audioUrl = audioData.download || audioData.audio || audioData.downloadUrl || audioData.dl || audioData.url;
 
           if (!audioUrl) {
+            lastFailReason = `${apiMethod.name}: no download URL`;
             console.log(`${apiMethod.name} returned no download URL, trying next API...`);
             continue;
           }
 
           if (isIpLockedCdn(audioUrl)) {
+            lastFailReason = `${apiMethod.name}: IP-locked CDN URL`;
             console.log(`${apiMethod.name} gave IP-locked CDN URL, trying next API...`);
             continue;
           }
@@ -340,16 +316,18 @@ module.exports = {
             if (audioBuffer?.length) {
               if (!detectAudioFormat(audioBuffer)) {
                 const head = audioBuffer.slice(0, 60).toString('utf8').replace(/\s+/g, ' ');
+                lastFailReason = `${apiMethod.name}: non-audio response`;
                 console.log(`${apiMethod.name} returned non-audio (${audioBuffer.length} bytes): ${head}`);
                 audioBuffer = null;
                 continue;
               }
               downloadSuccess = true;
-              console.log(`[song] OK via ${apiMethod.name} (${audioBuffer.length} bytes)`);
+              console.log(`[song] OK via ${apiMethod.name}${audioData.base ? ` @ ${audioData.base}` : ''} (${audioBuffer.length} bytes)`);
               break;
             }
           } catch (downloadErr) {
             const statusCode = downloadErr.response?.status || downloadErr.status;
+            lastFailReason = `${apiMethod.name}: download ${statusCode || downloadErr.code || downloadErr.message}`;
             console.log(
               `Download failed from ${apiMethod.name}:`,
               statusCode || downloadErr.code || downloadErr.message
@@ -357,6 +335,8 @@ module.exports = {
             continue;
           }
         } catch (apiErr) {
+          // Keep Knight's "too long" reason; later backup-host errors would hide it.
+          if (!/max duration/i.test(lastFailReason)) lastFailReason = `${apiMethod.name}: ${apiErr.message}`;
           console.log(`${apiMethod.name} API failed:`, apiErr.message);
           continue;
         }
@@ -364,7 +344,9 @@ module.exports = {
 
       if (!downloadSuccess || !audioBuffer) {
         throw new Error(
-          'All download sources failed. Knight API needs fresh YouTube cookies on Render (cookies.txt).'
+          lastFailReason
+            ? `All download sources failed. Last: ${lastFailReason}`
+            : 'All download sources failed.'
         );
       }
 
@@ -424,19 +406,14 @@ module.exports = {
       console.error('Song command error:', err);
 
       let errorMessage = '❌ Failed to download song.';
-      if (err.message && err.message.includes('cookies')) {
-        errorMessage =
-          '❌ YouTube blocked the download API. Update `cookies.txt` (YouTube login) on the Knight API host and redeploy.';
-      } else if (err.message && err.message.includes('blocked')) {
-        errorMessage =
-          '❌ Download blocked. The content may be unavailable in your region or due to legal restrictions.';
-      } else if (err.response?.status === 451 || err.status === 451) {
+      if (err.response?.status === 451 || err.status === 451) {
         errorMessage =
           '❌ Content unavailable (451). This may be due to legal restrictions or regional blocking.';
-      } else if (err.message && err.message.includes('All download sources failed')) {
-        errorMessage =
-          '❌ All download sources failed. Knight API needs fresh YouTube cookies on Render.';
+      } else if (/max duration/i.test(err.message || '')) {
+        // Safe to show: Knight's own text, e.g. "Max duration is 10 minutes (video is 68m 32s)"
+        errorMessage = `❌ Song too long. ${err.message.replace(/^.*?(Max duration)/i, '$1')}`;
       }
+      // Other raw errors can contain API URLs/keys — keep them in the console only.
 
       await sock.sendMessage(msg.key.remoteJid, { text: errorMessage }, { quoted: msg });
     }

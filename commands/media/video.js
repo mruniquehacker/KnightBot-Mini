@@ -11,13 +11,17 @@ const axios = require('axios');
 const ffmpegPath = require('ffmpeg-static');
 const APIs = require('../../utils/api');
 const config = require('../../config');
+const { knightDownload, getMediaApiConfig, UA } = require('../../utils/mediaApi');
 
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-const YT_API = config.mediaApiUrl;
-const YT_API_KEY = config.mediaApiKey;
-const PRINCE_API = String(config.princeApiUrl || 'https://api.princetechn.com').replace(/\/$/, '');
-const PRINCE_API_KEY = config.princeApiKey || 'prince';
 const HECTOR_API = 'https://yt-dl.officialhectormanuel.workers.dev';
+
+function princeApiCreds() {
+  const { prince, princeKey } = getMediaApiConfig();
+  return {
+    base: prince || String(config.princeApiUrl || 'https://api.princetechn.com').replace(/\/$/, ''),
+    key: princeKey || config.princeApiKey || 'prince_tech_api_azfsbshfb',
+  };
+}
 
 function isYouTubeUrl(text) {
   return /youtube\.com|youtu\.be/i.test(text);
@@ -64,6 +68,7 @@ function princeFileUrl(result, quality) {
 async function princeVideoDownload(url, quality = '720') {
   const watchUrl = toYouTubeWatchUrl(url);
   const q = videoQuality(quality);
+  const { base: PRINCE_API, key: PRINCE_API_KEY } = princeApiCreds();
   const endpoint = new URL('/api/download/ytvideo', PRINCE_API);
   endpoint.searchParams.set('apikey', PRINCE_API_KEY);
   endpoint.searchParams.set('quality', q);
@@ -108,27 +113,21 @@ function formatInfo(video) {
 }
 
 async function knightVideoDownload({ url, query, format = '720p' }) {
-  const params = { apikey: YT_API_KEY, format };
+  const params = { format };
   if (url) params.url = url;
   else params.query = query;
 
-  const { data } = await axios.get(`${YT_API}/api/download/ytmp4`, {
-    params,
+  const data = await knightDownload('/api/download/ytmp4', params, {
     timeout: 180000,
-    headers: { Accept: 'application/json', 'User-Agent': UA },
+    attemptsPerBase: 2,
   });
-
-  if (!data?.success) {
-    throw new Error(data?.result?.error || 'Knight API failed');
-  }
-
-  const dl_url = pickUrl(data.result);
+  const dl_url = data.download || pickUrl(data.raw);
   if (!dl_url) throw new Error('Knight API returned no download URL');
 
   return {
-    title: data.result?.title || 'Video',
+    title: data.title || data.raw?.title || 'Video',
     dl_url,
-    sourceUrl: data.result?.url || url,
+    sourceUrl: data.url || data.raw?.url || url,
   };
 }
 
@@ -153,9 +152,9 @@ async function resolveVideo({ url, query }) {
   }
 
   const steps = [
+    ['Knight', () => knightVideoDownload({ url: videoUrl })],
     ['Prince', () => princeVideoDownload(videoUrl)],
     ['Hector', () => hectorVideoDownload(videoUrl)],
-    ['Knight', () => knightVideoDownload({ url: videoUrl })],
   ];
   let lastError;
   for (const [name, run] of steps) {
