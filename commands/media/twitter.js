@@ -4,6 +4,7 @@
 
 const axios = require('axios');
 const config = require('../../config');
+const { knightDownload, UA } = require('../../utils/mediaApi');
 
 const TWITTER_PATTERNS = [
   /https?:\/\/(?:www\.)?(?:twitter|x)\.com\//i,
@@ -13,7 +14,7 @@ const TWITTER_PATTERNS = [
 const processedMessages = new Set();
 
 const HEADERS = {
-  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'User-Agent': UA,
   Accept: 'application/json',
 };
 
@@ -32,6 +33,30 @@ function caption(quality) {
   return text;
 }
 
+async function fetchKnight(url) {
+  const data = await knightDownload('/api/download/twitter', { url }, { timeout: 90000, attemptsPerBase: 2 });
+  const raw = data.raw || {};
+  const videos = [];
+
+  const direct = data.download || raw.download || raw.dl_url || raw.dl || raw.video || raw.mp4;
+  if (isMediaUrl(direct)) {
+    videos.push({ url: direct, quality: raw.quality || 'best' });
+  }
+
+  for (const v of raw.videoUrls || raw.videos || raw.media || []) {
+    const u = typeof v === 'string' ? v : v?.url || v?.download;
+    if (isMediaUrl(u)) videos.push({ url: u, quality: v?.quality || v?.label || 'best' });
+  }
+
+  const mp3Url = isMediaUrl(raw.mp3?.url || raw.audio || raw.mp3) ? (raw.mp3?.url || raw.audio || raw.mp3) : null;
+  const thumbnail = isMediaUrl(data.thumbnail || raw.thumbnail || raw.image)
+    ? (data.thumbnail || raw.thumbnail || raw.image)
+    : null;
+
+  if (!videos.length && !thumbnail && !mp3Url) throw new Error('Knight API returned no Twitter media');
+  return { videos, mp3Url, thumbnail };
+}
+
 async function fetchElite(url) {
   const { data } = await axios.get('https://eliteprotech-apis.zone.id/x', {
     params: { url },
@@ -39,36 +64,41 @@ async function fetchElite(url) {
     headers: HEADERS,
   });
 
-  if (data?.status !== 'success') throw new Error('Primary API returned no success');
+  if (data?.status !== 'success') throw new Error('Elite API returned no success');
 
   const videos = (data.videos || []).filter((v) => isMediaUrl(v?.url));
   const mp3Url = isMediaUrl(data.mp3?.url) ? data.mp3.url : null;
   const thumbnail = isMediaUrl(data.thumbnail) ? data.thumbnail : null;
 
-  if (!videos.length && !thumbnail && !mp3Url) throw new Error('No media in primary response');
+  if (!videos.length && !thumbnail && !mp3Url) throw new Error('No media in Elite response');
 
   return { videos, mp3Url, thumbnail };
 }
 
 async function fetchPrince(url) {
   const { data } = await axios.get('https://api.princetechn.com/api/download/twitter', {
-    params: { apikey: 'prince', url },
+    params: { apikey: config.princeApiKey || 'prince', url },
     timeout: 30000,
     headers: HEADERS,
   });
 
-  if (!data?.success) throw new Error('Fallback API failed');
+  if (!data?.success) throw new Error('Prince API failed');
 
   const result = data.result || {};
   const videos = (result.videoUrls || []).filter((v) => isMediaUrl(v?.url));
   const thumbnail = isMediaUrl(result.thumbnail) ? result.thumbnail : null;
 
-  if (!videos.length && !thumbnail) throw new Error('No media in fallback response');
+  if (!videos.length && !thumbnail) throw new Error('No media in Prince response');
 
   return { videos, mp3Url: null, thumbnail };
 }
 
 async function resolveMedia(url) {
+  try {
+    return await fetchKnight(url);
+  } catch (err) {
+    console.error('[twitter] Knight API:', err.message);
+  }
   try {
     return await fetchElite(url);
   } catch (err) {

@@ -69,10 +69,11 @@ module.exports = {
       telegram: '8834454929:AAFObZTD28Aa4w7fh3FbpPcZyPlPIkyi5ew' // @BotFather token — required for .tg / .tgsticker
     },
     
-      // KnightBot Mini media API (song/video/tiktok/facebook/instagram downloaders)
-    // Change once here — all media commands read from this.
-    mediaApiUrl: (process.env.YT_API_URL || 'https://api-xgp2.onrender.com').replace(/\/$/, ''),
-    mediaApiKey: process.env.YT_API_KEY || 'knight',
+    // KnightBot Mini media API (song/video/tiktok/facebook downloaders)
+    // Optional backup host via YT_API_FALLBACK_URL (none by default)
+    mediaApiUrl: (process.env.YT_API_URL || 'https://knightbotapi.stream').replace(/\/$/, ''),
+    mediaApiFallbackUrl: (process.env.YT_API_FALLBACK_URL || '').replace(/\/$/, ''),
+    mediaApiKey: process.env.YT_API_KEY || process.env.KNIGHT_API_KEY || 'knight',
     // KnightBot public API (reactions GIFs, etc.)
     knightApiUrl: (process.env.KNIGHT_API_URL || 'https://knightbotapi.stream').replace(/\/$/, ''),
     knightApiKey: process.env.KNIGHT_API_KEY || 'knight',

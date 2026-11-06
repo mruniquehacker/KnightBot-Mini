@@ -5,10 +5,7 @@
 const { facebookdl } = require('@bochilteam/scraper-facebook');
 const axios = require('axios');
 const config = require('../../config');
-
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-const YT_API = config.mediaApiUrl;
-const YT_API_KEY = config.mediaApiKey;
+const { knightDownload, UA } = require('../../utils/mediaApi');
 
 const processedMessages = new Set();
 
@@ -33,21 +30,12 @@ function pickUrl(result) {
 }
 
 async function knightFacebookDownload(url) {
-  const { data } = await axios.get(`${YT_API}/api/download/facebook`, {
-    params: { apikey: YT_API_KEY, url },
-    timeout: 180000,
-    headers: { Accept: 'application/json', 'User-Agent': UA },
-  });
-
-  if (!data?.success) {
-    throw new Error(data?.result?.error || 'Knight API failed');
-  }
-
-  const dl_url = pickUrl(data.result);
+  const data = await knightDownload('/api/download/facebook', { url }, { timeout: 180000 });
+  const dl_url = data.download || pickUrl(data.raw);
   if (!dl_url) throw new Error('Knight API returned no download URL');
 
   return {
-    title: data.result?.title || 'Facebook Video',
+    title: data.title || data.raw?.title || 'Facebook Video',
     dl_url,
   };
 }
